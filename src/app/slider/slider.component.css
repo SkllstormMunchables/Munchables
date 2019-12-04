@@ -1,0 +1,35 @@
+.cooking {
+  width: 500px;
+  height: 500px;
+}
+
+table {
+  background-color: black;
+}
+
+#flex {
+  display: flex;
+  justify-content: center;
+  border: 2px solid ;
+  background-color: fuchsia;
+  background-image: url("/src/assets/img/food.jpeg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#flex #justify_content {
+  border: 2px solid green;
+  display: flex;
+  justify-content: center;
+}
+
+#flex #justify_content .cooking {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
