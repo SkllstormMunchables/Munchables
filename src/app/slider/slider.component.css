@@ -6,17 +6,21 @@
 table {
   background-color: black;
 }
-
+#carousel #slide_container{
+  height:400px;
+}
 #flex {
   display: flex;
   justify-content: center;
   border: 2px solid ;
-  background-color: fuchsia;
+  background-color: blue;
   background-image: url("/src/assets/img/food.jpeg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  height:500px;
+
 }
 
 #flex #justify_content {
