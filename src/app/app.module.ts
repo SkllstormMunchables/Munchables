@@ -7,6 +7,10 @@ import { NavigationComponent } from "./navigation/navigation.component";
 import { SliderComponent } from "./slider/slider.component";
 import { AddRecipeComponent } from "./add-recipe/add-recipe.component";
 import { FooterComponent } from "./footer/footer.component";
+import { RecipesComponent } from './recipes/recipes.component';
+import { ModalComponent } from './modal/modal.component';
+import { StepsComponent } from './steps/steps.component';
+import { IngredientsComponent } from './ingredients/ingredients.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +18,11 @@ import { FooterComponent } from "./footer/footer.component";
     NavigationComponent,
     SliderComponent,
     AddRecipeComponent,
-    FooterComponent
+    FooterComponent,
+    RecipesComponent,
+    ModalComponent,
+    StepsComponent,
+    IngredientsComponent
   ],
   imports: [BrowserModule, AppRoutingModule, MDBBootstrapModule.forRoot()],
   providers: [],
