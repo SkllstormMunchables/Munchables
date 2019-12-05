@@ -13,3 +13,14 @@ section nav #nav_color{
 section nav a span{
   color:white
 }
+
+nav form #button_color{
+  color: white;
+  border:1px solid white;
+}
+
+nav form #button_color:hover{
+  color: black;
+  background-color: white;
+
+}
