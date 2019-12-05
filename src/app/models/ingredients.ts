@@ -1,4 +1,4 @@
-export class ingredients {
+export class Ingredients {
   name: string;
   quantity: number;
 
