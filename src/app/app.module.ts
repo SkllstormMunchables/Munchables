@@ -11,6 +11,9 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { ModalComponent } from './modal/modal.component';
 import { StepsComponent } from './steps/steps.component';
 import { IngredientsComponent } from './ingredients/ingredients.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { IngredientsComponent } from './ingredients/ingredients.component';
     RecipesComponent,
     ModalComponent,
     StepsComponent,
-    IngredientsComponent
+    IngredientsComponent,
+    FormsModule,
+    HttpClientModule
   ],
   imports: [BrowserModule, AppRoutingModule, MDBBootstrapModule.forRoot()],
   providers: [],
