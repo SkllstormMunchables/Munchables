@@ -1,0 +1,39 @@
+.cooking {
+  width: 500px;
+  height: 500px;
+}
+
+table {
+  background-color: black;
+}
+#carousel #slide_container {
+  height: 400px;
+}
+#flex {
+  display: flex;
+  justify-content: center;
+  border: 2px solid;
+  /* background-color: blue; */
+  background-image: url(food.jpeg) no-repeat center center
+    fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 800px;
+}
+
+#flex #justify_content {
+  border: 2px solid green;
+  display: flex;
+  justify-content: center;
+}
+
+#flex #justify_content .cooking {
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

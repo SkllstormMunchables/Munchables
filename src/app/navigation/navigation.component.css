@@ -1,0 +1,26 @@
+.bg-nav {
+  background-image: url(board.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+section nav #nav_color{
+  color:white
+}
+
+section nav a span{
+  color:white
+}
+
+nav form #button_color{
+  color: white;
+  border:1px solid white;
+}
+
+nav form #button_color:hover{
+  color: black;
+  background-color: white;
+
+}
