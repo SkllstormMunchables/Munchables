@@ -1,11 +1,11 @@
 export class Steps {
-  prep: string;
-  cook: string;
-  serve: string;
+  stepId: number;
+  step: string;
+  recipeId: number;
 
   constructor() {
-    this.prep = null;
-    this.prep = null;
-    this.serve = null;
+    this.stepId = null;
+    this.step = null;
+    this.recipeId = null;
   }
 }

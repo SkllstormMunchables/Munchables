@@ -1,3 +1,4 @@
+
 import { IngredientsService } from "./../ingredients.service";
 import { Ingredients } from "./../models/ingredients";
 import { Component, OnInit } from "@angular/core";
@@ -7,14 +8,25 @@ import { Component, OnInit } from "@angular/core";
   templateUrl: "./add-ingredients.component.html",
   styleUrls: ["./add-ingredients.component.css"]
 })
+
+
 export class AddIngredientsComponent implements OnInit {
-  dummy: Ingredients = new Ingredients();
-  addIngredient(): void {
-    this.ingredientsService.add(this.dummy);
-    this.dummy = new Ingredients();
-  }
+  ingredient: Ingredients[];
 
   constructor(private ingredientsService: IngredientsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getIngredients();
+  }
+
+  getIngredients(): void {
+  this.ingredientsService.getRecipes().subscribe(ingredient => this.ingredient = ingredient);
+
+}
+
+  addIngredient(ingredients: Ingredients ): void {
+this.ingredientsService.AddIngredientsComponent
+  }
+
+
 }
