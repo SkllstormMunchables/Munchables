@@ -13,7 +13,7 @@ import { Steps } from "../models/steps";
 })
 export class SliderComponent implements OnInit {
   recipes: Recipe[] = [];
-  step: Steps[] = [];
+  steps: Steps[] = [];
   ingredient: Ingredients[] = [];
 
   // tslint:disable-next-line: max-line-length
@@ -23,5 +23,26 @@ export class SliderComponent implements OnInit {
     private stepsService: StepsService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getRecipes();
+    this.getSteps();
+    this.getIngredient();
+  }
+
+  getRecipes(): void {
+    this.recipesService.getRecipes().subscribe(recipe => {
+      this.recipes = recipe;
+    });
+  }
+  getSteps(): void {
+    this.stepsService.getSteps().subscribe(step => {
+      this.steps = step;
+    });
+  }
+
+  getIngredient(): void {
+    this.ingredientsService.getIngredients().subscribe(ingredients => {
+      this.ingredient = ingredients;
+    });
+  }
 }
