@@ -15,21 +15,21 @@ export class RecipesService {
 
   constructor(private http: HttpClient) {}
 
-  getIngredients(): Observable<any> {
+  getRecipes(): Observable<any> {
     return this.http.get<any>(this.recipesUrl);
   }
 
-  addIngredient(recipes: Recipe): Observable<any> {
+  addRecipes(recipes: Recipe): Observable<any> {
     return this.http.post<any>(this.recipesUrl, recipes, this.httpHeaders);
   }
 
-  deleteIngredient(recipes: Recipe | number): Observable<any> {
+  deleteRecipes(recipes: Recipe | number): Observable<any> {
     const id = typeof recipes === "number" ? recipes : recipes.recipeId;
     const url = `${this.recipesUrl}/${id}`;
     return this.http.delete<any>(url, this.httpHeaders);
   }
 
-  updateIngredient(recipes: Recipe): Observable<any> {
+  updateRecipes(recipes: Recipe): Observable<any> {
     return this.http.put(this.recipesUrl, recipes, this.httpHeaders);
   }
 }

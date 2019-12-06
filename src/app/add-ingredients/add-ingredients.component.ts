@@ -1,4 +1,3 @@
-
 import { IngredientsService } from "./../ingredients.service";
 import { Ingredients } from "./../models/ingredients";
 import { Component, OnInit } from "@angular/core";
@@ -8,8 +7,6 @@ import { Component, OnInit } from "@angular/core";
   templateUrl: "./add-ingredients.component.html",
   styleUrls: ["./add-ingredients.component.css"]
 })
-
-
 export class AddIngredientsComponent implements OnInit {
   ingredient: Ingredients[];
 
@@ -20,13 +17,16 @@ export class AddIngredientsComponent implements OnInit {
   }
 
   getIngredients(): void {
-  this.ingredientsService.getRecipes().subscribe(ingredient => this.ingredient = ingredient);
-
-}
-
-  addIngredient(ingredients: Ingredients ): void {
-this.ingredientsService.AddIngredientsComponent
+    this.ingredientsService
+      .getIngredients()
+      .subscribe(ingredient => (this.ingredient = ingredient));
   }
 
+  addIngredient(ingredients: Ingredients): void {
+    this.ingredientsService.addIngredient(ingredients).subscribe(ingredient => {
+      this.ingredient.push(ingredient);
+    });
 
+    
+  }
 }

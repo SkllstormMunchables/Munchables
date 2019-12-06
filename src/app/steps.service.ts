@@ -15,21 +15,21 @@ export class StepsService {
 
   constructor(private http: HttpClient) {}
 
-  getIngredients(): Observable<any> {
+  getSteps(): Observable<any> {
     return this.http.get<any>(this.stepsUrl);
   }
 
-  addIngredient(step: Steps): Observable<any> {
+  addSteps(step: Steps): Observable<any> {
     return this.http.post<any>(this.stepsUrl, step, this.httpHeaders);
   }
 
-  deleteIngredient(step: Steps | number): Observable<any> {
+  deleteSteps(step: Steps | number): Observable<any> {
     const id = typeof step === "number" ? step : step.recipeId;
     const url = `${this.stepsUrl}/${id}`;
     return this.http.delete<any>(url, this.httpHeaders);
   }
 
-  updateIngredient(step: Steps): Observable<any> {
+  updateSteps(step: Steps): Observable<any> {
     return this.http.put(this.stepsUrl, step, this.httpHeaders);
   }
 }
