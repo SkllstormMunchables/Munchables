@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
   providedIn: "root"
 })
 export class IngredientsService {
-  private ingredientsUrl = "api/heroes"; // URL to web api
+  private ingredientsUrl = ""; // URL to web api
 
   httpHeaders = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })

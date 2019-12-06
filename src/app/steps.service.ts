@@ -7,7 +7,7 @@ import { Steps } from "./models/steps";
   providedIn: "root"
 })
 export class StepsService {
-  private stepsUrl = "api/heroes"; // URL to web api
+  private stepsUrl = ""; // URL to web api
 
   httpHeaders = {
     headers: new HttpHeaders({ "Content-Type": "application/json" })
