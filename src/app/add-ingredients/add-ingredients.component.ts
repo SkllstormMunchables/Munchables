@@ -26,7 +26,5 @@ export class AddIngredientsComponent implements OnInit {
     this.ingredientsService.addIngredient(ingredients).subscribe(ingredient => {
       this.ingredient.push(ingredient);
     });
-
-    
   }
 }
