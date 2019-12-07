@@ -54,6 +54,8 @@ export class AddRecipeComponent implements OnInit {
   addIngredient(ingredients: Ingredients): void {
     this.ingredientsService.addIngredient(ingredients).subscribe(ingredient => {
       this.ingredient.push(ingredient);
+      console.log(ingredients);
+      console.log(ingredient);
     });
   }
 

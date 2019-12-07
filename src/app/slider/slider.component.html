@@ -1,6 +1,6 @@
 <div id="justify_content" *ngFor="let recipe of recipes; let i = index">
   <h5 class="card-title">{{ recipe.recipeName }}</h5>
-  <div *ngFor="let ingredients of ingredient">
+  <div *ngFor="let ingredients of ingredients">
     <p class="card-text" *ngIf="recipe.recipeId === ingredients.recipeId">
       {{ ingredients.name }}
     </p>
@@ -12,13 +12,17 @@
   </div>
 </div>
 
+<div><br>
+  <h2>Add Recipe</h2>
+  <form>
+   <label>Recipe Name</label><br>
+    <input #recipeName/><br>
+   <label>Ingredients</label><br>
+   <input #name><br>
+   <label>Steps</label><br>
+   <input #stepsName><br>
+   <button (click)="addRecipes(recipeName.value); recipeName.value = ''; addIngredient(name.value); name.value = ''">Add Recipe</button>
 
-<div>
-  <label>Recipe name:
-    <input #recipeName />
-  </label>
-  <!-- (click) passes input value to add() and then clears the input -->
-  <button (click)="addRecipes(recipeName.value); recipeName.value=''">
-    add
-  </button>
+
+  </form>
 </div>

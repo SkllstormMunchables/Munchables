@@ -1,4 +1,4 @@
-import { recipe } from './mockDB';
+import { recipe, ingredients } from './mockDB';
 import { Steps } from './models/steps';
 import { Ingredients } from './models/ingredients';
 import { Recipe } from './models/recipe';
@@ -11,7 +11,8 @@ import { Injectable } from '@angular/core';
 })
 
 export class InMemoryDataService implements InMemoryDbService {
-  createDb() {
+
+   createDb() {
    const recipe  = [
     { recipeId: 1, recipeName: 'Cereal' },
     { recipeId: 2, recipeName: 'Pizza' },
@@ -68,7 +69,18 @@ export class InMemoryDataService implements InMemoryDbService {
    return {recipe, ingredients, steps};
 }
 
-genId(recipe: Recipe[]): number {
-  return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
-}
+    genId(recipe: Recipe[]): number {
+
+      let returnValue = recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
+      console.log(returnValue);
+      return returnValue++;
+
+    }
+
+    geneId(ingredients: Ingredients[]): number {
+      return ingredients.length > 0 ? Math.max(...ingredients.map(ingredient => ingredient.recipeId)) + 1 : 11;
+    }
+
+
+
 }

@@ -1,20 +1,21 @@
-import { Ingredients } from './../models/ingredients';
-import { StepsService } from './../steps.service';
-import { IngredientsService } from './../ingredients.service';
-import { RecipesService } from './../recipes.service';
-import { Recipe } from './../models/recipe';
-import { Component, OnInit } from '@angular/core';
-import { Steps } from '../models/steps';
+import { recipe } from './../mockDB';
+import { Ingredients } from "./../models/ingredients";
+import { StepsService } from "./../steps.service";
+import { IngredientsService } from "./../ingredients.service";
+import { RecipesService } from "./../recipes.service";
+import { Recipe } from "./../models/recipe";
+import { Component, OnInit } from "@angular/core";
+import { Steps } from "../models/steps";
 
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.css']
+  selector: "app-slider",
+  templateUrl: "./slider.component.html",
+  styleUrls: ["./slider.component.css"]
 })
 export class SliderComponent implements OnInit {
   recipes: Recipe[] = [];
   steps: Steps[] = [];
-  ingredient: Ingredients[] = [];
+  ingredients: Ingredients[] = [];
 
   constructor(
     private recipesService: RecipesService,
@@ -29,12 +30,30 @@ export class SliderComponent implements OnInit {
   }
 
   addRecipes(recipeName: string): void {
-    console.log(recipeName);
-    // if (!recipeName) { return; }
-    this.recipesService.addRecipes({recipeName} as Recipe).subscribe(recipe => {
-      this.recipes.push(recipe);
+    if (!recipeName) { return };
+    this.recipesService
+      .addRecipes({ recipeName } as Recipe)
+      .subscribe(recipe => {
+        this.recipes.push(recipe);
+        console.log(recipe);
+        
+      });
+  }
+  addIngredient(name: string): void {
+    this.ingredientsService.addIngredient({ name } as Ingredients).subscribe(ingredient => {
+      this.ingredients.push(ingredient);
+      console.log(ingredient);
+      console.log(name);
+
     });
   }
+
+  addSteps(step: Steps): void {
+    this.stepsService.addSteps(step).subscribe(step => {
+      this.steps.push(step);
+    });
+  }
+
   getRecipes(): void {
     this.recipesService.getRecipes().subscribe(recipe => {
       this.recipes = recipe;
@@ -47,8 +66,8 @@ export class SliderComponent implements OnInit {
   }
 
   getIngredient(): void {
-    this.ingredientsService.getIngredients().subscribe(ingredients => {
-      this.ingredient = ingredients;
+    this.ingredientsService.getIngredients().subscribe(ingredient => {
+      this.ingredients = ingredient;
     });
   }
 }
