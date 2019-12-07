@@ -68,6 +68,6 @@ export class InMemoryDataService implements InMemoryDbService {
 }
 
 genId(recipe: Recipe[]): number {
-  return recipe.length > 0 ? Math.max(...recipe.map(recipe => recipe.recipeId)) + 1 : 11;
+    return recipe.length > 0 ? Math.max(...recipe.map(recipe => recipe.recipeId)) + 1 : 11;
 }
 }
