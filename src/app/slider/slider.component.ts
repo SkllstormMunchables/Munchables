@@ -16,7 +16,6 @@ export class SliderComponent implements OnInit {
   steps: Steps[] = [];
   ingredient: Ingredients[] = [];
 
-  // tslint:disable-next-line: max-line-length
   constructor(
     private recipesService: RecipesService,
     private ingredientsService: IngredientsService,
