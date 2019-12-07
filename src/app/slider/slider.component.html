@@ -1,15 +1,13 @@
-<div id="justify_content" *ngFor="let recipe of recipes; let i=index" >
-    <h5 class="card-title">{{recipe.recipeName}}</h5>
-    <div *ngFor="let ingredients of ingredient">
-        <p class="card-text" *ngIf="recipe.recipeId === ingredients.recipeId">
-             {{ ingredients.name }}
-        </p>
-      </div>
-    <div *ngFor="let step of steps">
-        <p class="card-text" *ngIf="recipe.recipeId === step.recipeId">
-             {{ step.step }}
-        </p>
-
-    </div>
-
+<div id="justify_content" *ngFor="let recipe of recipes; let i = index">
+  <h5 class="card-title">{{ recipe.recipeName }}</h5>
+  <div *ngFor="let ingredients of ingredient">
+    <p class="card-text" *ngIf="recipe.recipeId === ingredients.recipeId">
+      {{ ingredients.name }}
+    </p>
+  </div>
+  <div *ngFor="let step of steps">
+    <p class="card-text" *ngIf="recipe.recipeId === step.recipeId">
+      {{ step.step }}
+    </p>
+  </div>
 </div>

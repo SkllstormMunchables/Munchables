@@ -1,13 +1,22 @@
 export class Ingredients {
   ingredientId: number;
   name: string;
-  quantity: number;
-  measurementId: number;
+  recipeId: number;
+  // quantity: number;
+  // measurementId: number;
+
+
+
 
   constructor() {
     this.ingredientId = null;
     this.name = null;
-    this.quantity = null;
-    this.measurementId = null;
+    this.recipeId = null;
+    // this.quantity = null;
+    // this.measurementId = null;
+
+
+
+
   }
 }
