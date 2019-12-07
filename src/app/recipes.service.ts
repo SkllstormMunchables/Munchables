@@ -20,7 +20,8 @@ export class RecipesService {
   }
 
   addRecipes(recipes: Recipe): Observable<any> {
-    return this.http.post<any>(this.recipesUrl, recipes, this.httpHeaders);
+    console.log(recipes);
+    return this.http.post<Recipe>(this.recipesUrl, recipes, this.httpHeaders);
   }
 
   deleteRecipes(recipes: Recipe | number): Observable<any> {

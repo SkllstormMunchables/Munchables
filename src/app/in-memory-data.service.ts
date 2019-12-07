@@ -1,3 +1,4 @@
+import { recipe } from './mockDB';
 import { Steps } from './models/steps';
 import { Ingredients } from './models/ingredients';
 import { Recipe } from './models/recipe';
@@ -67,7 +68,7 @@ export class InMemoryDataService implements InMemoryDbService {
    return {recipe, ingredients, steps};
 }
 
-// genId(recipe: Recipe[]): number {
-//   return recipe.length > 0 ? Math.max(...recipe.map(hero => recipe.)) + 1 : 11;
-// }
+genId(recipe: Recipe[]): number {
+  return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
+}
 }

@@ -28,6 +28,13 @@ export class SliderComponent implements OnInit {
     this.getIngredient();
   }
 
+  addRecipes(recipeName: string): void {
+    console.log(recipeName);
+    // if (!recipeName) { return; }
+    this.recipesService.addRecipes({recipeName} as Recipe).subscribe(recipe => {
+      this.recipes.push(recipe);
+    });
+  }
   getRecipes(): void {
     this.recipesService.getRecipes().subscribe(recipe => {
       this.recipes = recipe;
