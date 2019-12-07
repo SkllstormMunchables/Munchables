@@ -46,7 +46,7 @@ export class InMemoryDataService implements InMemoryDbService {
     {ingredientId: 21, name: 'cajun seasoning', recipeId: 4 },
     {ingredientId: 23, name: 'oil', recipeId: 4 },
 
-  ];
+  ]; // Change
    const steps = [
     // Cereal
     { stepId: 1, step: 'Put cereal into bowl. Add milk', recipeId: 1},
