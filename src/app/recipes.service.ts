@@ -19,10 +19,9 @@ export class RecipesService {
     return this.http.get<any[]>(this.recipesUrl);
   }
 
-  addRecipes(newRecipes: Recipe): Observable<Recipe> {
-    console.log(newRecipes);
-    return this.http.post<Recipe>(this.recipesUrl, newRecipes, this.httpHeaders);
-    
+  addRecipes(recipes: Recipe): Observable<any> {
+    console.log(recipes);
+    return this.http.post<Recipe>(this.recipesUrl, recipes, this.httpHeaders);
   }
 
   deleteRecipes(recipes: Recipe | number): Observable<any> {

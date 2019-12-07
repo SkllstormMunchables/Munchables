@@ -11,3 +11,14 @@
     </p>
   </div>
 </div>
+
+
+<div>
+  <label>Recipe name:
+    <input #recipeName />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="addRecipes(recipeName.value); recipeName.value=''">
+    add
+  </button>
+</div>
