@@ -7,7 +7,11 @@ import { Steps } from './models/steps';
   providedIn: 'root'
 })
 export class StepsService {
+<<<<<<< HEAD
   private stepsUrl = 'api/recipes'; // URL to web api
+=======
+  private stepsUrl = 'api/steps'; // URL to web api
+>>>>>>> 8629690a660a906ec70be7542a5a14072b0aa273
 
   httpHeaders = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
