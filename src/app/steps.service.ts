@@ -1,16 +1,16 @@
-import { Observable } from "rxjs";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Steps } from "./models/steps";
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Steps } from './models/steps';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class StepsService {
-  private stepsUrl = ""; // URL to web api
+  private stepsUrl = 'api/recipe'; // URL to web api
 
   httpHeaders = {
-    headers: new HttpHeaders({ "Content-Type": "application/json" })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
   constructor(private http: HttpClient) {}
@@ -24,7 +24,7 @@ export class StepsService {
   }
 
   deleteSteps(step: Steps | number): Observable<any> {
-    const id = typeof step === "number" ? step : step.recipeId;
+    const id = typeof step === 'number' ? step : step.recipeId;
     const url = `${this.stepsUrl}/${id}`;
     return this.http.delete<any>(url, this.httpHeaders);
   }

@@ -66,7 +66,7 @@ export const steps: Steps[] = [
   { stepId: 6, step: 'Mix all ingredients. Drop large spoonfuls onto ungreased pan', recipeId: 3},
   { stepId: 7, step: 'Bake in oven for about 10 minutes, or until edges are golden brown', recipeId: 3},
   // Fried Pickles
-  { stepId: 8, step: 'Preheat oven to 350 degrees F', recipeId: 3},
-  { stepId: 9, step: 'Mix all ingredients. Drop large spoonfuls onto ungreased pan', recipeId: 3},
-  { stepId: 10, step: 'Bake in oven for about 10 minutes, or until edges are golden brown', recipeId: 3}
+  { stepId: 8, step: 'Preheat oven to 350 degrees F', recipeId: 4},
+  { stepId: 9, step: 'Mix all ingredients. Drop large spoonfuls onto ungreased pan', recipeId: 4},
+  { stepId: 10, step: 'Bake in oven for about 10 minutes, or until edges are golden brown', recipeId: 4}
 ];

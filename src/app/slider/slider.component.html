@@ -11,10 +11,10 @@
   <div class="carousel-inner" id="slide_container ">
     <div class="carousel-item active ">
       <section id="flex" style="background-image: url(food.jpeg)">
-        <div id="justify_content">
+        <div id="justify_content" *ngFor="let recipe of recipes">
           <div class="card" style="width: 18rem;">
             <div class="card-body">
-              <h5 class="card-title"></h5>
+              <h5 class="card-title">{{recipe.recipeName}}</h5>
               <p class="card-text">
                 Some quick example text to build on the card title and make up
                 the bulk of the card's content.
