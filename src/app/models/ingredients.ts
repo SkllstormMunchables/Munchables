@@ -6,8 +6,6 @@ export class Ingredients {
   // measurementId: number;
 
 
-
-
   constructor() {
     this.ingredientId = null;
     this.name = null;
