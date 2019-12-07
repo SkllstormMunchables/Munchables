@@ -8,13 +8,22 @@ import { Recipe } from "../models/recipe";
   styleUrls: ["./add-recipe.component.css"]
 })
 export class AddRecipeComponent implements OnInit {
-  dummy: Recipe = new Recipe();
-  addRecipe(): void {
-    this.recipesService.add(this.dummy);
-    this.dummy = new Recipe();
-  }
+  recipes: Recipe[];
 
   constructor(private recipesService: RecipesService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getRecipes();
+  }
+  getRecipes(): void {
+    this.recipesService
+      .getRecipes()
+      .subscribe(recipes => (this.recipes = recipes));
+  }
+
+  addRecipes(recipes: Recipe): void {
+    this.recipesService.addRecipes(recipes).subscribe(recipe => {
+      this.recipes.push(recipe);
+    });
+  }
 }
