@@ -8,13 +8,23 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./add-ingredients.component.css"]
 })
 export class AddIngredientsComponent implements OnInit {
-  dummy: Ingredients = new Ingredients();
-  addIngredient(): void {
-    this.ingredientsService.add(this.dummy);
-    this.dummy = new Ingredients();
-  }
+  ingredient: Ingredients[];
 
   constructor(private ingredientsService: IngredientsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getIngredients();
+  }
+
+  getIngredients(): void {
+    this.ingredientsService
+      .getIngredients()
+      .subscribe(ingredient => (this.ingredient = ingredient));
+  }
+
+  addIngredient(ingredients: Ingredients): void {
+    this.ingredientsService.addIngredient(ingredients).subscribe(ingredient => {
+      this.ingredient.push(ingredient);
+    });
+  }
 }
