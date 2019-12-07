@@ -46,3 +46,5 @@ export class SliderComponent implements OnInit {
     });
   }
 }
+
+//test
