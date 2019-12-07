@@ -8,13 +8,21 @@ import { Steps } from "../models/steps";
   styleUrls: ["./add-steps.component.css"]
 })
 export class AddStepsComponent implements OnInit {
-  dummy: Steps = new Steps();
-  addSteps(): void {
-    this.stepsService.add(this.dummy);
-    this.dummy = new Steps();
-  }
+  step: Steps[];
 
   constructor(private stepsService: StepsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getSteps();
+  }
+
+  getSteps(): void {
+    this.stepsService.getSteps().subscribe(steps => (this.step = steps));
+  }
+
+  addSteps(step: Steps): void {
+    this.stepsService.addSteps(step).subscribe(steps => {
+      this.step.push(steps);
+    });
+  }
 }
