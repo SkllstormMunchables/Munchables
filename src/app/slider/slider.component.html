@@ -6,10 +6,9 @@
     </p>
   </div>
   <div *ngFor="let step of steps">
-    <p class="card-text" *ngIf="recipe.recipeId === step.recipeId">
+    <li class="card-text" *ngIf="recipe.recipeId === step.recipeId">
       {{ step.step }}
-    </p>
-  </div>
+    </div>
 </div>
 
 <div>
@@ -21,7 +20,8 @@
     <label>Ingredients</label><br />
     <textarea rows="5" cols="50" #name></textarea><br />
     <label>Steps</label><br />
-    <textarea rows="5" cols="50" #step></textarea><br />
+    <input #step><button (click)="addSteps(step.value); step.value = ''">text</button><br>
+    <!-- <textarea rows="5" cols="50" #step></textarea><br /> -->
     <button
       (click)="
         addRecipes(recipeName.value);

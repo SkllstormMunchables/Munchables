@@ -60,7 +60,7 @@ export class SliderComponent implements OnInit {
 
   addSteps(step: string): void {
     this.stepsService.addSteps({ step } as Steps).subscribe(newSteps => {
-      newSteps.recipeId = this.generateId(this.steps);
+      newSteps.recipeId = this.recipes;
       this.steps.push(newSteps);
       console.log(newSteps);
 
