@@ -18,7 +18,7 @@ export class InMemoryDataService implements InMemoryDbService {
     { recipeId: 2, recipeName: 'Pizza' },
     { recipeId: 3, recipeName: 'Cookies' },
     { recipeId: 4, recipeName: 'Fried Pickles'}
-  ];
+  ]
    const ingredients = [
     // Cereal
     {ingredientId: 1, name: 'milk', recipeId: 1 },
@@ -48,7 +48,7 @@ export class InMemoryDataService implements InMemoryDbService {
     {ingredientId: 21, name: 'cajun seasoning', recipeId: 4 },
     {ingredientId: 23, name: 'oil', recipeId: 4 },
 
-  ]; // Change
+  ] // Change
    const steps = [
     // Cereal
     { stepId: 1, step: 'Put cereal into bowl. Add milk', recipeId: 1},
@@ -65,15 +65,16 @@ export class InMemoryDataService implements InMemoryDbService {
     { stepId: 9, step: 'Add the pickles to a bowl of buttermilk and then put pickles into the bag and shake.', recipeId: 4},
     { stepId: 10, step: 'Heat oil to 350 degrees in a fryer or a frying pan', recipeId: 4},
     { stepId: 11, step: 'Fry pickles for 1-2 minutes or until golden brown on each side', recipeId: 4}
-  ];
+  ]
    return {recipe, ingredients, steps};
 }
 
     genId(recipe: Recipe[]): number {
 
       let returnValue = recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
+
       console.log(returnValue);
-      return returnValue++;
+      return returnValue;
 
     }
 
@@ -81,6 +82,8 @@ export class InMemoryDataService implements InMemoryDbService {
       return ingredients.length > 0 ? Math.max(...ingredients.map(ingredient => ingredient.recipeId)) + 1 : 11;
     }
 
-
+    generateId(step: Steps[]): number {
+      return step.length > 0 ? Math.max(...step.map(steps => steps.recipeId)) + 1 : 11;
+    }
 
 }

@@ -12,17 +12,27 @@
   </div>
 </div>
 
-<div><br>
+<div>
+  <br />
   <h2>Add Recipe</h2>
   <form>
-   <label>Recipe Name</label><br>
-    <input #recipeName/><br>
-   <label>Ingredients</label><br>
-   <input #name><br>
-   <label>Steps</label><br>
-   <input #stepsName><br>
-   <button (click)="addRecipes(recipeName.value); recipeName.value = ''; addIngredient(name.value); name.value = ''">Add Recipe</button>
-
-
+    <label>Recipe Name</label><br />
+    <input #recipeName /><br />
+    <label>Ingredients</label><br />
+    <textarea rows="5" cols="50" #name></textarea><br />
+    <label>Steps</label><br />
+    <textarea rows="5" cols="50" #stepsName></textarea><br />
+    <button
+      (click)="
+        addRecipes(recipeName.value);
+        recipeName.value = '';
+        addIngredient(name.value);
+        name.value = '';
+        addSteps(stepsName.value);
+        stepsName = ''
+      "
+    >
+      Add Recipe
+    </button>
   </form>
 </div>

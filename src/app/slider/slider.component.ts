@@ -1,4 +1,3 @@
-import { recipe } from './../mockDB';
 import { Ingredients } from "./../models/ingredients";
 import { StepsService } from "./../steps.service";
 import { IngredientsService } from "./../ingredients.service";
@@ -29,30 +28,44 @@ export class SliderComponent implements OnInit {
     this.getIngredient();
   }
 
+  genRecipeId(recipe: Recipe[]): number {
+    return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
+  }
+
   addRecipes(recipeName: string): void {
-    if (!recipeName) { return };
-    this.recipesService
-      .addRecipes({ recipeName } as Recipe)
-      .subscribe(recipe => {
-        this.recipes.push(recipe);
-        console.log(recipe);
-        
+    if (!recipeName) { return; }
+    this.recipesService.addRecipes({recipeName} as Recipe).subscribe(recipe => {
+      recipe.recipeId = this.genRecipeId(this.recipes);
+      this.recipes.push(recipe);
+    });
+  }
+
+  geneId(ingredients: Ingredients[]): number {
+    return ingredients.length > 0 ? Math.max(...ingredients.map(ingredient => ingredient.recipeId)) + 1 : 11;
+  }
+
+  addIngredient(name: string): void {
+    this.ingredientsService
+      .addIngredient({ name } as Ingredients)
+      .subscribe(ingredient => {
+        ingredient.recipeId = this.geneId(this.ingredients);
+        this.ingredients.push(ingredient);
+        console.log(ingredient);
+        console.log(name);
       });
   }
-  addIngredient(name: string): void {
-    this.ingredientsService.addIngredient({ name } as Ingredients).subscribe(ingredient => {
-      this.ingredients.push(ingredient);
-      console.log(ingredient);
-      console.log(name);
+  // generateId(step: Steps[]): number {
+  //   return step.length > 0 ? Math.max(...step.map(steps => steps.recipeId)) + 1 : 11;
+  // }
 
-    });
-  }
+  // addSteps(step: string): void {
+  //   this.stepsService.addSteps({ step } as Steps).subscribe(newSteps => {
+  //     newSteps.recipeId = this.generateId(this.steps);
+  //     this.steps.push(newSteps);
+  //     console.log(newSteps);
 
-  addSteps(step: Steps): void {
-    this.stepsService.addSteps(step).subscribe(step => {
-      this.steps.push(step);
-    });
-  }
+  //   });
+  // }
 
   getRecipes(): void {
     this.recipesService.getRecipes().subscribe(recipe => {
