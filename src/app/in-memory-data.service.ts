@@ -70,13 +70,10 @@ export class InMemoryDataService implements InMemoryDbService {
 }
 
     genId(recipe: Recipe[]): number {
+       
+      return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
 
-      let returnValue = recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
-
-      console.log(returnValue);
-      return returnValue;
-
-    }
+         }
 
     geneId(ingredients: Ingredients[]): number {
       return ingredients.length > 0 ? Math.max(...ingredients.map(ingredient => ingredient.recipeId)) + 1 : 11;

@@ -15,14 +15,16 @@
   <br />
   <h2>Add Recipe</h2>
   <form>
-    <label>Recipe Name</label><br />
-    <input #recipeName /><br />
+    <label>Recipe Name</label><br>
+    <input #recipeName /><button (click)="addRecipes(recipeName.value);
+    recipeName.value = ''">Add Recipe</button><br>
     <label>Ingredients</label><br />
-    <textarea rows="5" cols="50" #name></textarea><br />
+    <input #name><button (click)="addIngredient(name.value);
+    name.value = ''">Add Ingredient</button><br><br />
     <label>Steps</label><br />
-    <input #step><button (click)="addSteps(step.value); step.value = ''">text</button><br>
+    <input #step><button (click)="addSteps(step.value); step.value = ''">Add Steps</button><br>
     <!-- <textarea rows="5" cols="50" #step></textarea><br /> -->
-    <button
+    <!-- <button
       (click)="
         addRecipes(recipeName.value);
         recipeName.value = '';
@@ -31,7 +33,7 @@
         "
     >
       Add Recipe
-    </button>
+    </button> -->
   </form>
 </div>
 

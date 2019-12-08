@@ -9,7 +9,7 @@ export class Ingredients {
   constructor() {
     this.ingredientId = null;
     this.name = null;
-    this.recipeId = null;
+    this.recipeId = 0;
     // this.quantity = null;
     // this.measurementId = null;
 

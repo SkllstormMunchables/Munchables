@@ -1,3 +1,4 @@
+import { ingredients, recipe } from "./../mockDB";
 import { Ingredients } from "./../models/ingredients";
 import { StepsService } from "./../steps.service";
 import { IngredientsService } from "./../ingredients.service";
@@ -29,41 +30,58 @@ export class SliderComponent implements OnInit {
   }
 
   genRecipeId(recipe: Recipe[]): number {
-    return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
+    return recipe.length > 0
+      ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1
+      : 5;
   }
 
   addRecipes(recipeName: string): void {
-    if (!recipeName) { return; }
-    this.recipesService.addRecipes({recipeName} as Recipe).subscribe(recipe => {
-      recipe.recipeId = this.genRecipeId(this.recipes);
-      this.recipes.push(recipe);
-    });
+    if (!recipeName) {
+      return;
+    }
+    this.recipesService
+      .addRecipes({ recipeName } as Recipe)
+      .subscribe(recipe => {
+        recipe.recipeId = this.genRecipeId(recipe);
+        this.recipes.push(recipe);
+        console.log(recipe);
+      });
   }
 
   geneId(ingredients: Ingredients[]): number {
-    return ingredients.length > 0 ? Math.max(...ingredients.map(ingredient => ingredient.recipeId)) + 1 : 11;
+    return ingredients.length > 0
+      ? Math.max(...ingredients.map(ingredient => ingredient.recipeId)) + 1
+      : 5;
+  }
+
+  generateIngredientId(ingredients: Ingredients[]): number {
+    return ingredients.length > 0
+      ? Math.max(...ingredients.map(ingredient => ingredient.ingredientId)) + 1
+      : 5;
   }
 
   addIngredient(name: string): void {
     this.ingredientsService
       .addIngredient({ name } as Ingredients)
       .subscribe(ingredient => {
-        ingredient.recipeId = this.geneId(this.ingredients);
+        // this.generateIngredientId(ingredients);
+        ingredient.recipeId = this.genRecipeId(recipe);
         this.ingredients.push(ingredient);
         console.log(ingredient);
         console.log(name);
       });
   }
-  generateId(step: Steps[]): number {
-    return step.length > 0 ? Math.max(...step.map(steps => steps.recipeId)) + 1 : 11;
+  generateSteps(theseSteps: Steps[]): number {
+    return theseSteps.length > 0
+      ? Math.max(...theseSteps.map(stepNew => stepNew.recipeId)) + 1
+      : 11;
   }
 
   addSteps(step: string): void {
     this.stepsService.addSteps({ step } as Steps).subscribe(newSteps => {
-      newSteps.recipeId = this.recipes;
+      newSteps.recipeId = this.genRecipeId(recipe);
       this.steps.push(newSteps);
       console.log(newSteps);
-
     });
   }
 

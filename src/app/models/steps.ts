@@ -6,6 +6,6 @@ export class Steps {
   constructor() {
     this.stepId = null;
     this.step = null;
-    this.recipeId = null;
+    this.recipeId = 0;
   }
 }
