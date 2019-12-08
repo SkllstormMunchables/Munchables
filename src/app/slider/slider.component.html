@@ -21,18 +21,19 @@
     <label>Ingredients</label><br />
     <textarea rows="5" cols="50" #name></textarea><br />
     <label>Steps</label><br />
-    <textarea rows="5" cols="50" #stepsName></textarea><br />
+    <textarea rows="5" cols="50" #step></textarea><br />
     <button
       (click)="
         addRecipes(recipeName.value);
         recipeName.value = '';
         addIngredient(name.value);
-        name.value = '';
-        addSteps(stepsName.value);
-        stepsName = ''
-      "
+        name.value = ''; addSteps(step.value); step.value = ''
+        "
     >
       Add Recipe
     </button>
   </form>
 </div>
+
+<!-- addSteps(stepsName.value);
+        stepsName = '' -->

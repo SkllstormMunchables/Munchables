@@ -54,18 +54,18 @@ export class SliderComponent implements OnInit {
         console.log(name);
       });
   }
-  // generateId(step: Steps[]): number {
-  //   return step.length > 0 ? Math.max(...step.map(steps => steps.recipeId)) + 1 : 11;
-  // }
+  generateId(step: Steps[]): number {
+    return step.length > 0 ? Math.max(...step.map(steps => steps.recipeId)) + 1 : 11;
+  }
 
-  // addSteps(step: string): void {
-  //   this.stepsService.addSteps({ step } as Steps).subscribe(newSteps => {
-  //     newSteps.recipeId = this.generateId(this.steps);
-  //     this.steps.push(newSteps);
-  //     console.log(newSteps);
+  addSteps(step: string): void {
+    this.stepsService.addSteps({ step } as Steps).subscribe(newSteps => {
+      newSteps.recipeId = this.generateId(this.steps);
+      this.steps.push(newSteps);
+      console.log(newSteps);
 
-  //   });
-  // }
+    });
+  }
 
   getRecipes(): void {
     this.recipesService.getRecipes().subscribe(recipe => {
