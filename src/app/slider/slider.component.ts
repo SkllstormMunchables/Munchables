@@ -1,4 +1,5 @@
-import { ingredients, recipe } from "./../mockDB";
+
+import { NgbCarousel, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ingredients } from "./../models/ingredients";
 import { StepsService } from "./../steps.service";
 import { IngredientsService } from "./../ingredients.service";
@@ -6,6 +7,7 @@ import { RecipesService } from "./../recipes.service";
 import { Recipe } from "./../models/recipe";
 import { Component, OnInit } from "@angular/core";
 import { Steps } from "../models/steps";
+
 
 @Component({
   selector: "app-slider",
@@ -42,7 +44,8 @@ export class SliderComponent implements OnInit {
     this.recipesService
       .addRecipes({ recipeName } as Recipe)
       .subscribe(recipe => {
-        recipe.recipeId = this.genRecipeId(recipe);
+        recipe.recipeId = this.genRecipeId;
+
         this.recipes.push(recipe);
         console.log(recipe);
       });
@@ -65,7 +68,7 @@ export class SliderComponent implements OnInit {
       .addIngredient({ name } as Ingredients)
       .subscribe(ingredient => {
         // this.generateIngredientId(ingredients);
-        ingredient.recipeId = this.genRecipeId(recipe);
+        ingredient.recipeId = this.genRecipeId;
         this.ingredients.push(ingredient);
         console.log(ingredient);
         console.log(name);
@@ -79,7 +82,7 @@ export class SliderComponent implements OnInit {
 
   addSteps(step: string): void {
     this.stepsService.addSteps({ step } as Steps).subscribe(newSteps => {
-      newSteps.recipeId = this.genRecipeId(recipe);
+      newSteps.recipeId = this.genRecipeId;
       this.steps.push(newSteps);
       console.log(newSteps);
     });

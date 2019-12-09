@@ -16,6 +16,7 @@ import { ListRecipeComponent } from './list-recipe/list-recipe.component';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,8 +27,8 @@ import { InMemoryDataService } from './in-memory-data.service';
     ModalComponent,
     AddIngredientsComponent,
     AddStepsComponent,
-    ListRecipeComponent
-  ],
+    ListRecipeComponent,
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -35,7 +36,6 @@ import { InMemoryDataService } from './in-memory-data.service';
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
-
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     )
