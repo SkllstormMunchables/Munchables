@@ -1,5 +1,5 @@
 
-import { NgbCarousel, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { Ingredients } from "./../models/ingredients";
 import { StepsService } from "./../steps.service";
 import { IngredientsService } from "./../ingredients.service";
