@@ -1,10 +1,8 @@
-import { recipe } from './mockDB';
 import { Steps } from './models/steps';
 import { Ingredients } from './models/ingredients';
 import { Recipe } from './models/recipe';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Injectable } from '@angular/core';
-
 
 @Injectable({
   providedIn: 'root'
@@ -19,35 +17,66 @@ export class InMemoryDataService implements InMemoryDbService {
     { recipeId: 4, recipeName: 'Fried Pickles'}
   ];
    const ingredients = [
-    // Cereal
-    {ingredientId: 1, name: 'milk', recipeId: 1 },
-    {ingredientId: 2, name: 'Count Chocula', recipeId: 1 },
+     // Cereal
+    {ingredientId: 1, name: 'milk' },
+    {ingredientId: 2, name: 'Count Chocula' },
     // Pizza
-    {ingredientId: 3, name: 'dough', recipeId: 2 },
-    {ingredientId: 4, name: 'pizza sauce', recipeId: 2 },
-    {ingredientId: 5, name: 'mozzarella', recipeId: 2 },
-    {ingredientId: 6, name: 'pepperoni', recipeId: 2 },
+    {ingredientId: 3, name: 'dough' },
+    {ingredientId: 4, name: 'pizza sauce' },
+    {ingredientId: 5, name: 'mozzarella' },
+    {ingredientId: 6, name: 'pepperoni' },
     // Cookies
-    {ingredientId: 7, name: 'butter', recipeId: 3 },
-    {ingredientId: 8, name: 'sugar', recipeId: 3 },
-    {ingredientId: 9, name: 'brown sugar', recipeId: 3 },
-    {ingredientId: 10, name: 'eggs', recipeId: 3 },
-    {ingredientId: 11, name: 'vanilla extract', recipeId: 3 },
-    {ingredientId: 12, name: 'baking soda', recipeId: 3 },
-    {ingredientId: 13, name: 'salt', recipeId: 3 },
-    {ingredientId: 14, name: 'flour', recipeId: 3 },
-    {ingredientId: 15, name: 'chocolate chips', recipeId: 3 },
+    {ingredientId: 7, name: 'butter' },
+    {ingredientId: 8, name: 'sugar' },
+    {ingredientId: 9, name: 'brown sugar' },
+    {ingredientId: 10, name: 'eggs' },
+    {ingredientId: 11, name: 'vanilla extract' },
+    {ingredientId: 12, name: 'baking soda' },
+    {ingredientId: 13, name: 'salt' },
+    {ingredientId: 14, name: 'flour' },
+    {ingredientId: 15, name: 'chocolate chips' },
     // Fried Pickles
-    {ingredientId: 16, name: 'buttermilk', recipeId: 4 },
-    {ingredientId: 17, name: 'pepper', recipeId: 4 },
-    {ingredientId: 18, name: 'pickles(sliced)', recipeId: 4 },
-    {ingredientId: 19, name: 'flour', recipeId: 4 },
-    {ingredientId: 20, name: 'cornmeal', recipeId: 4 },
-    {ingredientId: 21, name: 'seafood seasoning', recipeId: 4 },
-    {ingredientId: 21, name: 'cajun seasoning', recipeId: 4 },
-    {ingredientId: 23, name: 'oil', recipeId: 4 },
+    {ingredientId: 16, name: 'buttermilk' },
+    {ingredientId: 17, name: 'pepper' },
+    {ingredientId: 18, name: 'pickles(sliced)' },
+    {ingredientId: 19, name: 'flour' },
+    {ingredientId: 20, name: 'cornmeal' },
+    {ingredientId: 21, name: 'seafood seasoning' },
+    {ingredientId: 22, name: 'cajun seasoning' },
+    {ingredientId: 23, name: 'oil' },
 
-  ]; // Change
+  ];
+
+   const recipeIngredients = [
+    // Cereal
+    {recipeId: 1, ingredientId: 1 },
+    {recipeId: 1, ingredientId: 2 },
+    // Pizza
+    {recipeId: 2, ingredientId: 3 },
+    {recipeId: 2, ingredientId: 4 },
+    {recipeId: 2, ingredientId: 5 },
+    {recipeId: 2, ingredientId: 6 },
+    // Cookies
+    {recipeId: 3, ingredientId: 7 },
+    {recipeId: 3, ingredientId: 8 },
+    {recipeId: 3, ingredientId: 9 },
+    {recipeId: 3, ingredientId: 10 },
+    {recipeId: 3, ingredientId: 11 },
+    {recipeId: 3, ingredientId: 12 },
+    {recipeId: 3, ingredientId: 13 },
+    {recipeId: 3, ingredientId: 14 },
+    {recipeId: 3, ingredientId: 15 },
+    // Fried Pickles
+    {recipeId: 4, ingredientId: 16 },
+    {recipeId: 4, ingredientId: 17 },
+    {recipeId: 4, ingredientId: 18 },
+    {recipeId: 4, ingredientId: 19 },
+    {recipeId: 4, ingredientId: 20 },
+    {recipeId: 4, ingredientId: 21 },
+    {recipeId: 4, ingredientId: 22 },
+    {recipeId: 4, ingredientId: 23 }
+
+  ];
    const steps = [
     // Cereal
     { stepId: 1, step: 'Put cereal into bowl. Add milk', recipeId: 1},
@@ -65,10 +94,11 @@ export class InMemoryDataService implements InMemoryDbService {
     { stepId: 10, step: 'Heat oil to 350 degrees in a fryer or a frying pan', recipeId: 4},
     { stepId: 11, step: 'Fry pickles for 1-2 minutes or until golden brown on each side', recipeId: 4}
   ];
-   return {recipe, ingredients, steps};
+   return {recipe, ingredients, recipeIngredients, steps};
 }
 
 genId(recipe: Recipe[]): number {
-  return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
+  return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 1;
 }
+
 }

@@ -110,3 +110,17 @@
     </p>
   </div>
 </div>
+
+// Working on generating id's for ingredients
+genIngredientId(temp: Ingredients[]): number {
+    return temp.length > 0 ? Math.max(...temp.map(ingredient => ingredient.ingredientId)) + 1 : 1;
+  }
+  
+  addIngredient(name: string): void {
+    this.ingredientsService.addIngredient({name} as Ingredients).subscribe(temp => {
+      temp.ingredientId = this.genIngredientId(this.ingredient);
+      temp.recipeId = 5;//this.genRecipeId(this.ingredient);
+      this.ingredient.push(temp);
+      console.log(temp);
+    });
+  }

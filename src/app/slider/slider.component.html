@@ -1,10 +1,15 @@
-<div id="justify_content" *ngFor="let recipe of recipes; let i = index">
-  <h5 class="card-title">{{ recipe.recipeName }}</h5>
-  <div *ngFor="let ingredients of ingredient">
-    <p class="card-text" *ngIf="recipe.recipeId === ingredients.recipeId">
-      {{ ingredients.name }}
+<!-- Display Recipe Name -->
+<div id="justify_content" *ngFor="let recipe of recipes">
+  <h5 class="card-title">  {{ recipe.recipeName }}</h5>
+  <!-- Display Ingredient Name -->
+  <div *ngFor="let recipeIngredient of recipeIngredients">
+    <div class="card-text" *ngIf="recipe.recipeId === recipeIngredient.recipeId">
+      <p>
+      {{getIngredientById(recipeIngredient.ingredientId)}}
     </p>
+    </div>
   </div>
+  <!-- Display Steps -->
   <div *ngFor="let step of steps">
     <p class="card-text" *ngIf="recipe.recipeId === step.recipeId">
       {{ step.step }}
@@ -19,6 +24,24 @@
   </label>
   <!-- (click) passes input value to add() and then clears the input -->
   <button (click)="addRecipes(recipeName.value); recipeName.value=''">
+    add
+  </button>
+</div>
+<div>
+  <label>Ingredient:
+    <input #ingredientName />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="addIngredient(ingredientName.value); ingredientName.value=''">
+    add
+  </button>
+</div>
+<div>
+  <label>Step:
+    <input #step />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="addIngredient(step.value); step.value=''">
     add
   </button>
 </div>

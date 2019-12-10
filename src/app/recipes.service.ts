@@ -20,7 +20,6 @@ export class RecipesService {
   }
 
   addRecipes(recipes: Recipe): Observable<any> {
-    console.log(recipes);
     return this.http.post<Recipe>(this.recipesUrl, recipes, this.httpHeaders);
   }
 
