@@ -1,0 +1,35 @@
+.host {
+  display: block;
+  width: 500px;
+  height: 300px;
+  perspective: 1500px;
+  /* background-image: url(./assets/img/book-background2.png); */
+  background-repeat: no-repeat;
+  background-size: 505px 286px;
+  background-position: -2px 9px;
+  border:2px solid red;
+}
+
+.page {
+  margin-left: 250px;
+  margin-top: 20px;
+  padding-top: 40px;
+  padding-left: 20px;
+}
+
+.grab {
+  cursor: grab;
+}
+
+.grabbing {
+  cursor: grabbing;
+}
+
+#pageflip-canvas {
+  background-color: transparent;
+  z-index: 500;
+  position: absolute;
+  user-select: none;
+
+}
+
