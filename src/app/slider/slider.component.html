@@ -1,47 +1,103 @@
-<!-- Display Recipe Name -->
-<div id="justify_content" *ngFor="let recipe of recipes">
-  <h5 class="card-title">  {{ recipe.recipeName }}</h5>
-  <!-- Display Ingredient Name -->
-  <div *ngFor="let recipeIngredient of recipeIngredients">
-    <div class="card-text" *ngIf="recipe.recipeId === recipeIngredient.recipeId">
-      <p>
-      {{getIngredientById(recipeIngredient.ingredientId)}}
-    </p>
+<!-- NEED TO CHANGE THE INDEX NUMBER IN this.recipes[index number].recipeId TO MATCH THE PAGE NUMBERS-->
+
+<!-- Left Page -->
+<div class="split left">
+    <h1>{{ this.recipes[1].recipeName }}</h1>
+    <table>
+      <th>
+        <!-- Display Ingredients Left Column-->
+        <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+          <td *ngIf="(this.recipes[1].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 0)">
+            {{ this.ingredient[i].name }}
+          </td>
+        </div>
+      </th>
+      <th>
+        <!-- Display Ingredients Right Column-->
+        <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+          <td *ngIf="(this.recipes[1].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 1)">
+            {{ this.ingredient[i].name }}
+          </td>
+        </div>
+        <div class="flex">
+          <div>
+            <!-- (click) passes input value to add() and then clears the input -->
+            <button (click)="addIngredient(ingredientNameLeft.value, this.recipes[1].recipeId - 1); ingredientNameLeft.value=''">
+              +
+            </button>
+          </div>
+          <div>
+            <input size="1" #ingredientNameLeft />
+          </div>
+        </div>
+      </th>
+    </table>
+    <!-- Display Steps -->
+  <div class="steps">
+      <ol>
+        <div *ngFor="let step of steps">
+          <li *ngIf="this.recipes[1].recipeId === step.recipeId">
+             {{ step.step }}
+          </li>
+        </div>
+      </ol>
     </div>
   </div>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PAGE DIVIDER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<!-- Right Page -->
+<div class="split right">
+  <!-- Display Recipe -->
+  <h1>{{ this.recipes[2].recipeName }}</h1>
+  <table>
+    <th>
+      <!-- Display Ingredients Left Column-->
+      <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+        <td *ngIf="(this.recipes[2].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 1)">
+          {{ this.ingredient[i].name }}
+        </td>
+      </div>
+    </th>
+    <th>
+      <!-- Display Ingredients Right Column-->
+      <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+        <td *ngIf="(this.recipes[2].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 0)">
+          {{ this.ingredient[i].name }}
+        </td>
+      </div>
+      <div class="flex">
+        <div>
+          <!-- (click) passes input value to add() and then clears the input -->
+          <button (click)="addIngredient(ingredientName.value, this.recipes[2].recipeId - 1); ingredientName.value=''">
+            +
+          </button>
+        </div>
+        <div>
+          <input size="1" #ingredientName />
+        </div>
+      </div>
+    </th>
+  </table>
   <!-- Display Steps -->
-  <div *ngFor="let step of steps">
-    <p class="card-text" *ngIf="recipe.recipeId === step.recipeId">
-      {{ step.step }}
-    </p>
+  <div class="steps">
+    <ol>
+      <div *ngFor="let step of steps">
+        <li *ngIf="this.recipes[2].recipeId === step.recipeId">
+          {{ step.step }}
+        </li>
+      </div>
+    </ol>
   </div>
-</div>
 
+  <div>
+      <label>Step:
+        <input #step />
+      </label>
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button (click)="addSteps(step.value, this.recipes[2].recipeId - 1); step.value=''">
+        add
+      </button>
+    </div>
 
-<div>
-  <label>Recipe name:
-    <input #recipeName />
-  </label>
-  <!-- (click) passes input value to add() and then clears the input -->
-  <button (click)="addRecipes(recipeName.value); recipeName.value=''">
-    add
-  </button>
-</div>
-<div>
-  <label>Ingredient:
-    <input #ingredientName />
-  </label>
-  <!-- (click) passes input value to add() and then clears the input -->
-  <button (click)="addIngredient(ingredientName.value); ingredientName.value=''">
-    add
-  </button>
-</div>
-<div>
-  <label>Step:
-    <input #step />
-  </label>
-  <!-- (click) passes input value to add() and then clears the input -->
-  <button (click)="addIngredient(step.value); step.value=''">
-    add
-  </button>
 </div>
