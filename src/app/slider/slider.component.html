@@ -1,3 +1,41 @@
+<<<<<<< HEAD
 <h2>test</h2>
 
 
+=======
+<h2>Recipes</h2>
+<section>
+<div class="card text-center"*ngFor="let recipe of recipes; let i = index" >
+  <div class="card-header">
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ recipe.recipeName }}</h5>
+    <div *ngFor="let ingredients of ingredients">
+      <p class="card-text" *ngIf="recipe.recipeId === ingredients.recipeId">
+        {{ ingredients.name }}
+      </p>
+  </div>
+   <div *ngFor="let step of steps">
+      <li class="card-text" *ngIf="recipe.recipeId === step.recipeId">
+        {{ step.step }}
+      </div>
+</div>
+</div>
+</section>
+<div>
+  <br />
+<!-- <app-list-recipe></app-list-recipe> -->
+  <h2>Add Recipe</h2>
+  <form>
+    <label>Recipe Name</label><br>
+    <input #recipeName /><button (click)="addRecipes(recipeName.value);
+    recipeName.value = ''">Add Recipe</button><br>
+    <label>Ingredients</label><br />
+    <input #name><button (click)="addIngredient(name.value);
+    name.value = ''">Add Ingredient</button><br><br />
+    <label>Steps</label><br />
+    <input #step><button (click)="addSteps(step.value); step.value = ''">Add Steps</button><br>
+
+</form>
+</div>
+>>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2

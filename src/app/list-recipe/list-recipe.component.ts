@@ -1,10 +1,10 @@
-import { IngredientsService } from "./../ingredients.service";
+import { Ingredients } from "./../models/ingredients";
 import { StepsService } from "./../steps.service";
+import { IngredientsService } from "./../ingredients.service";
 import { RecipesService } from "./../recipes.service";
+import { Recipe } from "./../models/recipe";
 import { Component, OnInit } from "@angular/core";
-import { Recipe } from "../models/recipe";
 import { Steps } from "../models/steps";
-import { Ingredients } from "../models/ingredients";
 
 @Component({
   selector: "app-list-recipe",
@@ -23,7 +23,51 @@ export class ListRecipeComponent implements OnInit {
     private ingredientsService: IngredientsService
   ) {}
 
+
   ngOnInit() {
-   
+    // this.addIngredient();
+    // this.addRecipes();
+    // this.addSteps();
+    // this.getRecipes();
+
   }
+  getRecipes(): void {
+    this.recipesService.getRecipes().subscribe(recipe => {
+      this.recipes = recipe;
+    });
+  }
+
+  addRecipes(recipeName: string): void {
+    if (!recipeName) {
+      return;
+    }
+    this.recipesService
+      .addRecipes({ recipeName } as Recipe)
+      .subscribe(recipe => {
+        // recipe.recipeId = this.genRecipeId;
+
+        this.recipes.push(recipe);
+        console.log(recipe);
+      });
+  }
+  addIngredient(name: string): void {
+    this.ingredientsService
+      .addIngredient({ name } as Ingredients)
+      .subscribe(ingredients => {
+        // this.generateIngredientId(ingredients);
+        // ingredients.recipeId = this.genRecipeId;
+        this.ingredient.push(ingredients);
+        console.log(ingredients);
+        console.log(name);
+      });
+  }
+  addSteps(step: string): void {
+    this.stepsService.addSteps({ step } as Steps).subscribe(newSteps => {
+      // newSteps.recipeId = this.genRecipeId;
+      this.step.push(newSteps);
+      console.log(newSteps);
+    });
+  }
+
+
 }

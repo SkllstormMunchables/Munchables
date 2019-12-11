@@ -17,6 +17,7 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 import { FlipBookComponent } from './flip-book/flip-book.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,8 +29,12 @@ import { FlipBookComponent } from './flip-book/flip-book.component';
     AddIngredientsComponent,
     AddStepsComponent,
     ListRecipeComponent,
+<<<<<<< HEAD
     FlipBookComponent
   ],
+=======
+   ],
+>>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -37,7 +42,6 @@ import { FlipBookComponent } from './flip-book/flip-book.component';
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
     HttpClientModule,
-
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     )
