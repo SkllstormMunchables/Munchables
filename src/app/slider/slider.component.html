@@ -1,8 +1,104 @@
-<<<<<<< HEAD
-<h2>test</h2>
+<!-- NEED TO CHANGE THE INDEX NUMBER IN this.recipes[index number].recipeId TO MATCH THE PAGE NUMBERS-->
 
+<!-- Left Page -->
+<div class="split left">
+    <h1>{{ this.recipes[1].recipeName }}</h1>
+    <table>
+      <th>
+        <!-- Display Ingredients Left Column-->
+        <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+          <td *ngIf="(this.recipes[1].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 0)">
+            {{ this.ingredient[i].name }}
+          </td>
+        </div>
+      </th>
+      <th>
+        <!-- Display Ingredients Right Column-->
+        <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+          <td *ngIf="(this.recipes[1].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 1)">
+            {{ this.ingredient[i].name }}
+          </td>
+        </div>
+        <div class="flex">
+          <div>
+            <!-- (click) passes input value to add() and then clears the input -->
+            <button (click)="addIngredient(ingredientNameLeft.value, this.recipes[1].recipeId - 1); ingredientNameLeft.value=''">
+              +
+            </button>
+          </div>
+          <div>
+            <input size="1" #ingredientNameLeft />
+          </div>
+        </div>
+      </th>
+    </table>
+    <!-- Display Steps -->
+  <div class="steps">
+      <ol>
+        <div *ngFor="let step of steps">
+          <li *ngIf="this.recipes[1].recipeId === step.recipeId">
+             {{ step.step }}
+          </li>
+        </div>
+      </ol>
+    </div>
+  </div>
 
-=======
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PAGE DIVIDER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<!-- Right Page -->
+<div class="split right">
+  <!-- Display Recipe -->
+  <h1>{{ this.recipes[2].recipeName }}</h1>
+  <table>
+    <th>
+      <!-- Display Ingredients Left Column-->
+      <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+        <td *ngIf="(this.recipes[2].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 1)">
+          {{ this.ingredient[i].name }}
+        </td>
+      </div>
+    </th>
+    <th>
+      <!-- Display Ingredients Right Column-->
+      <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+        <td *ngIf="(this.recipes[2].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 0)">
+          {{ this.ingredient[i].name }}
+        </td>
+      </div>
+      <div class="flex">
+        <div>
+          <!-- (click) passes input value to add() and then clears the input -->
+          <button (click)="addIngredient(ingredientName.value, this.recipes[2].recipeId - 1); ingredientName.value=''">
+            +
+          </button>
+        </div>
+        <div>
+          <input size="1" #ingredientName />
+        </div>
+      </div>
+    </th>
+  </table>
+  <!-- Display Steps -->
+  <div class="steps">
+    <ol>
+      <div *ngFor="let step of steps">
+        <li *ngIf="this.recipes[2].recipeId === step.recipeId">
+          {{ step.step }}
+        </li>
+      </div>
+    </ol>
+  </div>
+  <div>
+      <label>Step:
+        <input #step />
+      </label>
+      <!-- (click) passes input value to add() and then clears the input -->
+      <button (click)="addSteps(step.value, this.recipes[2].recipeId - 1); step.value=''">
+        add
+      </button>
+    </div>
+
 <h2>Recipes</h2>
 <section>
 <div class="card text-center"*ngFor="let recipe of recipes; let i = index" >
@@ -37,5 +133,6 @@
     <input #step><button (click)="addSteps(step.value); step.value = ''">Add Steps</button><br>
 
 </form>
+
 </div>
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
+

@@ -1,57 +1,51 @@
-<<<<<<< HEAD
-import { RecipeIngredientsService } from "./../recipe-ingredients.service";
-=======
-
-
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
-import { Ingredients } from "./../models/ingredients";
-import { StepsService } from "./../steps.service";
-import { IngredientsService } from "./../ingredients.service";
-import { RecipesService } from "./../recipes.service";
-import { Recipe } from "./../models/recipe";
-import { Component, OnInit } from "@angular/core";
-import { Steps } from "../models/steps";
-<<<<<<< HEAD
-import { RecipeIngredients } from "../models/recipeIngredients";
-
-// import 'turn.min.js';
-=======
-
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
+import { RecipeIngredientsService } from './../recipe-ingredients.service';
+import { Ingredients } from './../models/ingredients';
+import { StepsService } from './../steps.service';
+import { IngredientsService } from './../ingredients.service';
+import { RecipesService } from './../recipes.service';
+import { Recipe } from './../models/recipe';
+import { Component, OnInit } from '@angular/core';
+import { Steps } from '../models/steps';
+import { RecipeIngredients } from '../models/recipeIngredients';
 
 @Component({
-  selector: "app-slider",
-  templateUrl: "./slider.component.html",
-  styleUrls: ["./slider.component.css"]
+  selector: 'app-slider',
+  templateUrl: './slider.component.html',
+  styleUrls: ['./slider.component.css']
 })
 export class SliderComponent implements OnInit {
   recipes: Recipe[] = [];
   steps: Steps[] = [];
-<<<<<<< HEAD
   ingredient: Ingredients[] = [];
   recipeIngredients: RecipeIngredients[] = [];
-=======
-  ingredients: Ingredients[] = [];
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
-
+  // tempRecipeIngredient: RecipeIngredients = new RecipeIngredients();
   constructor(
     private recipesService: RecipesService,
     private ingredientsService: IngredientsService,
     private stepsService: StepsService,
-    private recipeIngredientsService: RecipeIngredientsService,
-
-
-  ) {
-
-  }
-
+    private recipeIngredientsService: RecipeIngredientsService
+  ) {}
   ngOnInit() {
     this.getRecipes();
     this.getSteps();
     this.getIngredient();
     this.getRecipeIngredients();
   }
-
+  genRecipeId(recipe: Recipe[]): number {
+    return recipe.length > 0
+      ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1
+      : 1;
+  }
+  genIngredientId(temp: Ingredients[]): number {
+    return temp.length > 0
+      ? Math.max(...temp.map(ingredient => ingredient.ingredientId)) + 1
+      : 1;
+  }
+  genStepId(temp: Steps[]): number {
+    return temp.length > 0
+      ? Math.max(...temp.map(steps => steps.stepId)) + 1
+      : 1;
+  }
   getRecipeIngredients(): void {
     this.recipeIngredientsService
       .getRecipeIngredients()
@@ -59,18 +53,6 @@ export class SliderComponent implements OnInit {
         this.recipeIngredients = recipeIngredient;
       });
   }
-  genRecipeId(recipe: Recipe[]): number {
-    return recipe.length > 0
-      ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1
-      : 1;
-  }
-
-  genRecipeId(recipe: Recipe[]): number {
-    return recipe.length > 0
-      ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1
-      : 5;
-  }
-
   addRecipes(recipeName: string): void {
     if (!recipeName) {
       return;
@@ -78,57 +60,11 @@ export class SliderComponent implements OnInit {
     this.recipesService
       .addRecipes({ recipeName } as Recipe)
       .subscribe(recipe => {
-<<<<<<< HEAD
         recipe.recipeId = this.genRecipeId(this.recipes);
         this.recipes.push(recipe);
         console.log(recipe);
       });
-=======
-        recipe.recipeId = this.genRecipeId;
-
-        this.recipes.push(recipe);
-        console.log(recipe);
-      });
   }
-
-  geneId(ingredients: Ingredients[]): number {
-    return ingredients.length > 0
-      ? Math.max(...ingredients.map(ingredient => ingredient.recipeId)) + 1
-      : 5;
-  }
-
-  generateIngredientId(ingredients: Ingredients[]): number {
-    return ingredients.length > 0
-      ? Math.max(...ingredients.map(ingredient => ingredient.ingredientId)) + 1
-      : 5;
-  }
-
-  addIngredient(name: string): void {
-    this.ingredientsService
-      .addIngredient({ name } as Ingredients)
-      .subscribe(ingredient => {
-        // this.generateIngredientId(ingredients);
-        ingredient.recipeId = this.genRecipeId;
-        this.ingredients.push(ingredient);
-        console.log(ingredient);
-        console.log(name);
-      });
-  }
-  generateSteps(theseSteps: Steps[]): number {
-    return theseSteps.length > 0
-      ? Math.max(...theseSteps.map(stepNew => stepNew.recipeId)) + 1
-      : 11;
-  }
-
-  addSteps(step: string): void {
-    this.stepsService.addSteps({ step } as Steps).subscribe(newSteps => {
-      newSteps.recipeId = this.genRecipeId;
-      this.steps.push(newSteps);
-      console.log(newSteps);
-    });
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
-  }
-
   getRecipes(): void {
     this.recipesService.getRecipes().subscribe(recipe => {
       this.recipes = recipe;
@@ -139,36 +75,38 @@ export class SliderComponent implements OnInit {
       this.steps = step;
     });
   }
-
-  genIngredientId(temp: Ingredients[]): number {
-    return temp.length > 0
-      ? Math.max(...temp.map(ingredient => ingredient.ingredientId)) + 1
-      : 1;
-  }
-
-  addIngredient(name: string): void {
+  addIngredient(name: string, recipeId: number): void {
+    if (!name) {
+      return;
+    }
     this.ingredientsService
       .addIngredient({ name } as Ingredients)
       .subscribe(temp => {
         temp.ingredientId = this.genIngredientId(this.ingredient);
         this.ingredient.push(temp);
+        this.addRecipeIngredientRecipe(recipeId);
         console.log(temp);
       });
   }
-  getIngredientById(id: number) {
-    return this.ingredient.find(x => x.ingredientId === id).name;
-  }
   getIngredient(): void {
-    this.ingredientsService.getIngredients().subscribe(ingredient => {
-      this.ingredients = ingredient;
+    this.ingredientsService.getIngredients().subscribe(ingredients => {
+      this.ingredient = ingredients;
     });
   }
-
-  addSteps(step: string): void {
-    this.stepsService.addSteps({ step } as Steps).subscribe(steps => {
-      this.steps.push(steps);
+  addRecipeIngredientRecipe(id: number): void {
+    const tempRecipeIngredient = new RecipeIngredients();
+    length = this.ingredient.length - 1;
+    tempRecipeIngredient.ingredientId = this.ingredient[length].ingredientId;
+    tempRecipeIngredient.recipeId = this.recipes[id].recipeId;
+    this.recipeIngredients.push(tempRecipeIngredient);
+    console.log(this.recipeIngredients);
+  }
+  addSteps(step: string, recipeId: number): void {
+    this.stepsService.addSteps({ step } as Steps).subscribe(temp => {
+      temp.stepId = this.genStepId(this.steps);
+      temp.recipeId = this.recipes[recipeId].recipeId;
+      this.steps.push(temp);
+      console.log(this.steps);
     });
   }
 }
-
-//test

@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 import { recipe, ingredients } from './mockDB';
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
 import { Steps } from './models/steps';
 import { Ingredients } from './models/ingredients';
 import { Recipe } from './models/recipe';
@@ -81,11 +78,7 @@ export class InMemoryDataService implements InMemoryDbService {
     {recipeId: 4, ingredientId: 22 },
     {recipeId: 4, ingredientId: 23 }
 
-<<<<<<< HEAD
-  ];
-=======
   ] // Change
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
    const steps = [
     // Cereal
     { stepId: 1, step: 'Put cereal into bowl. Add milk', recipeId: 1},
@@ -102,21 +95,12 @@ export class InMemoryDataService implements InMemoryDbService {
     { stepId: 9, step: 'Add the pickles to a bowl of buttermilk and then put pickles into the bag and shake.', recipeId: 4},
     { stepId: 10, step: 'Heat oil to 350 degrees in a fryer or a frying pan', recipeId: 4},
     { stepId: 11, step: 'Fry pickles for 1-2 minutes or until golden brown on each side', recipeId: 4}
-<<<<<<< HEAD
-  ];
-   return {recipe, ingredients, recipeIngredients, steps};
-}
-
-genId(recipe: Recipe[]): number {
-  return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 1;
-}
-=======
   ]
    return {recipe, ingredients, steps};
 }
 
     genId(recipe: Recipe[]): number {
-       
+
       return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 11;
 
          }
@@ -128,6 +112,5 @@ genId(recipe: Recipe[]): number {
     generateId(step: Steps[]): number {
       return step.length > 0 ? Math.max(...step.map(steps => steps.recipeId)) + 1 : 11;
     }
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
 
 }
