@@ -1,33 +1,41 @@
-<!-- NEED TO CHANGE THE INDEX NUMBER IN this.recipes[index number].recipeId TO MATCH THE PAGE NUMBERS-->
 
 <!-- Left Page -->
 <div class="split left">
-    <h1>{{ this.recipes[1].recipeName }}</h1>
+    <div *ngIf="leftPageNumber > 1">
+        <button class="turnPageLeft" (click)="turnPage(0)"></button>
+      </div>
+      <!-- Toggle button for editing-->
+    <button (click)="toggle()">
+        {{buttonShowEdit}}
+      </button>
+      <!-- Display Recipe -->
+      <p class="pageNumber">{{ leftPageNumber }}</p>
+    <h1>{{ this.recipes[leftPageNumber - 1].recipeName }}</h1>
     <table>
       <th>
         <!-- Display Ingredients Left Column-->
-        <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
-          <td *ngIf="(this.recipes[1].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 0)">
-            {{ this.ingredient[i].name }}
+        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 0)">
+          <td>
+            {{recipeIngredient}}
           </td>
         </div>
       </th>
       <th>
         <!-- Display Ingredients Right Column-->
-        <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
-          <td *ngIf="(this.recipes[1].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 1)">
-            {{ this.ingredient[i].name }}
+        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 1)">
+          <td>
+            {{recipeIngredient}}
           </td>
         </div>
         <div class="flex">
           <div>
-            <!-- (click) passes input value to add() and then clears the input -->
-            <button (click)="addIngredient(ingredientNameLeft.value, this.recipes[1].recipeId - 1); ingredientNameLeft.value=''">
+            <!-- Add ingredient -->
+            <button [hidden]="show" (click)="addIngredient(ingredientNameLeft.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); ingredientNameLeft.value=''">
               +
             </button>
           </div>
           <div>
-            <input size="1" #ingredientNameLeft />
+            <input [hidden]="show" size="1" #ingredientNameLeft />
           </div>
         </div>
       </th>
@@ -36,11 +44,22 @@
   <div class="steps">
       <ol>
         <div *ngFor="let step of steps">
-          <li *ngIf="this.recipes[1].recipeId === step.recipeId">
+          <li *ngIf="this.recipes[this.leftPageNumber - 1].recipeId === step.recipeId">
              {{ step.step }}
           </li>
         </div>
       </ol>
+      <div class="flex" id="StepDiv">
+          <div>
+            <!-- Add a step -->
+            <button [hidden]="show" (click)="addSteps(step.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); step.value=''">
+              ADD
+            </button>
+          </div>
+          <div>
+            <input [hidden]="show" type="text" class="stepInput" #step />
+          </div>
+        </div>
     </div>
   </div>
 
@@ -48,33 +67,41 @@
 
 <!-- Right Page -->
 <div class="split right">
+    <div *ngIf="this.rightPageNumber < this.recipes.length - 1">
+      <button class="turnPageRight" (click)="turnPage(1)"></button>
+    </div>
+    <!-- Toggle button for editing-->
+    <button (click)="toggle()">
+      {{buttonShowEdit}}
+    </button>
   <!-- Display Recipe -->
-  <h1>{{ this.recipes[2].recipeName }}</h1>
+  <p class="pageNumber">{{ rightPageNumber }}</p>
+  <h1>{{ this.recipes[this.rightPageNumber - 1].recipeName }}</h1>
   <table>
     <th>
       <!-- Display Ingredients Left Column-->
-      <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
-        <td *ngIf="(this.recipes[2].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 1)">
-          {{ this.ingredient[i].name }}
+      <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(rightPageNumber, 0)">
+        <td>
+          {{recipeIngredient}}
         </td>
       </div>
     </th>
     <th>
       <!-- Display Ingredients Right Column-->
-      <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
-        <td *ngIf="(this.recipes[2].recipeId === recipeIngredient.recipeId) && (recipeIngredient.ingredientId % 2 == 0)">
-          {{ this.ingredient[i].name }}
+      <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(rightPageNumber, 1)">
+        <td>
+          {{recipeIngredient}}
         </td>
       </div>
       <div class="flex">
         <div>
-          <!-- (click) passes input value to add() and then clears the input -->
-          <button (click)="addIngredient(ingredientName.value, this.recipes[2].recipeId - 1); ingredientName.value=''">
+          <!-- Add ingredient -->
+          <button [hidden]="show" (click)="addIngredient(ingredientName.value, this.recipes[this.rightPageNumber - 1].recipeId - 1); ingredientName.value=''">
             +
           </button>
         </div>
         <div>
-          <input size="1" #ingredientName />
+          <input [hidden]="show" type="text" size="1" #ingredientName />
         </div>
       </div>
     </th>
@@ -83,21 +110,21 @@
   <div class="steps">
     <ol>
       <div *ngFor="let step of steps">
-        <li *ngIf="this.recipes[2].recipeId === step.recipeId">
+        <li *ngIf="this.recipes[rightPageNumber - 1].recipeId === step.recipeId">
           {{ step.step }}
         </li>
       </div>
     </ol>
-  </div>
-
-  <div>
-      <label>Step:
-        <input #step />
-      </label>
-      <!-- (click) passes input value to add() and then clears the input -->
-      <button (click)="addSteps(step.value, this.recipes[2].recipeId - 1); step.value=''">
-        add
-      </button>
+    <div class="flex" id="StepDiv">
+      <div>
+        <!-- Add a step -->
+        <button [hidden]="show" (click)="addSteps(step.value, this.recipes[rightPageNumber - 1].recipeId - 1); step.value=''">
+          ADD
+        </button>
+      </div>
+      <div>
+        <input [hidden]="show" type="text" class="stepInput" #step />
+      </div>
     </div>
-
+  </div>
 </div>

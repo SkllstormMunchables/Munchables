@@ -39,11 +39,10 @@ export class InMemoryDataService implements InMemoryDbService {
     {ingredientId: 16, name: 'buttermilk' },
     {ingredientId: 17, name: 'pepper' },
     {ingredientId: 18, name: 'pickles(sliced)' },
-    {ingredientId: 19, name: 'flour' },
-    {ingredientId: 20, name: 'cornmeal' },
-    {ingredientId: 21, name: 'seafood seasoning' },
-    {ingredientId: 22, name: 'cajun seasoning' },
-    {ingredientId: 23, name: 'oil' },
+    {ingredientId: 19, name: 'cornmeal' },
+    {ingredientId: 20, name: 'seafood seasoning' },
+    {ingredientId: 21, name: 'cajun seasoning' },
+    {ingredientId: 22, name: 'oil' },
 
   ];
 
@@ -67,14 +66,15 @@ export class InMemoryDataService implements InMemoryDbService {
     {recipeId: 3, ingredientId: 14 },
     {recipeId: 3, ingredientId: 15 },
     // Fried Pickles
+    {recipeId: 4, ingredientId: 13 },
+    {recipeId: 4, ingredientId: 14 },
     {recipeId: 4, ingredientId: 16 },
     {recipeId: 4, ingredientId: 17 },
     {recipeId: 4, ingredientId: 18 },
     {recipeId: 4, ingredientId: 19 },
     {recipeId: 4, ingredientId: 20 },
     {recipeId: 4, ingredientId: 21 },
-    {recipeId: 4, ingredientId: 22 },
-    {recipeId: 4, ingredientId: 23 }
+    {recipeId: 4, ingredientId: 22 }
 
   ];
    const steps = [
@@ -98,6 +98,7 @@ export class InMemoryDataService implements InMemoryDbService {
 }
 
 genId(recipe: Recipe[]): number {
+  console.log('in-memory-data.service: genId');
   return recipe.length > 0 ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1 : 1;
 }
 
