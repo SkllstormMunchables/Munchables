@@ -1,3 +1,4 @@
+import { ingredients } from './../mockDB';
 import { RecipeIngredientsService } from './../recipe-ingredients.service';
 import { Ingredients } from './../models/ingredients';
 import { StepsService } from './../steps.service';
@@ -166,7 +167,12 @@ export class SliderComponent implements OnInit {
     }
     return ingredientList;
   }
-
+  deleteIngredient(id: number) {
+    console.log('slider.component: deleteIngredient: ' + id);
+    this.ingredientsService.deleteIngredient(this.ingredient[id]).subscribe();
+    this.ingredient.splice(id, 1);
+    console.log('slider.component: deleteIngredient object: ' + this.ingredient[id]);
+  }
   addRecipeIngredientRecipe(id: number): void {
     const tempRecipeIngredient = new RecipeIngredients();
 

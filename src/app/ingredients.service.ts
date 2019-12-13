@@ -28,6 +28,7 @@ export class IngredientsService {
   }
 
   deleteIngredient(ingredient: Ingredients | number): Observable<any> {
+    console.log('slider.service: deleteIngredient: ' + ingredient);
     const id =
       typeof ingredient === 'number' ? ingredient : ingredient.ingredientId;
     const url = `${this.ingredientsUrl}/${id}`;

@@ -5,9 +5,9 @@
         <button class="turnPageLeft" (click)="turnPage(0)"></button>
       </div>
       <!-- Toggle button for editing-->
-    <button (click)="toggle()">
+    <!-- <button (click)="toggle()">
         {{buttonShowEdit}}
-      </button>
+      </button> -->
       <!-- Display Recipe -->
       <p class="pageNumber">{{ leftPageNumber }}</p>
     <h1>{{ this.recipes[leftPageNumber - 1].recipeName }}</h1>
@@ -15,27 +15,69 @@
       <th>
         <!-- Display Ingredients Left Column-->
         <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 0)">
-          <td>
-            {{recipeIngredient}}
-          </td>
+            <div *ngIf="show; else elseBlock">
+                <td>
+                  {{recipeIngredient}}
+                </td>
+              </div>
+              <ng-template #elseBlock>
+              <div class="flex">
+                <div>
+                  <!-- Edit ingredient -->
+                  <button (click)="addIngredient(ingredientNameLeft.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); ingredientNameLeft.value=''">
+                    Save
+                  </button>
+                </div>
+                <div>
+                    <input type="text" size="1" value={{recipeIngredient}} />
+                </div>
+                <div>
+                  <!-- Delete ingredient -->
+                  <button (click)="deleteIngredient(recipeIngredient); ingredientNameLeft.value=''">
+                    X
+                  </button>
+                </div>
+              </div>
+            </ng-template>
         </div>
       </th>
       <th>
         <!-- Display Ingredients Right Column-->
-        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 1)">
-          <td>
-            {{recipeIngredient}}
-          </td>
+        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 1); let i = index">
+          <div *ngIf="show; else elseBlock">
+            <td>
+              {{recipeIngredient}}
+            </td>
+          </div>
+          <ng-template #elseBlock>
+          <div class="flex">
+            <div>
+              <!-- Edit ingredient -->
+              <button (click)="addIngredient(ingredientNameLeft.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); ingredientNameLeft.value=''">
+                Save
+              </button>
+            </div>
+            <div>
+                <input type="text" size="1" value={{recipeIngredient}} />
+            </div>
+            <div>
+              <!-- Delete ingredient -->
+              <button (click)="deleteIngredient(i); ingredientNameLeft.value=''">
+                X
+              </button>
+            </div>
+          </div>
+        </ng-template>
         </div>
         <div class="flex">
           <div>
             <!-- Add ingredient -->
             <button [hidden]="show" (click)="addIngredient(ingredientNameLeft.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); ingredientNameLeft.value=''">
-              +
+              Add
             </button>
           </div>
           <div>
-            <input [hidden]="show" size="1" #ingredientNameLeft />
+            <input [hidden]="show" size="1" #ingredientNameLeft/>
           </div>
         </div>
       </th>
