@@ -1,5 +1,4 @@
 import { RecipeIngredients } from './../models/recipeIngredients';
-import { ingredients } from './../mockDB';
 import { RecipeIngredientsService } from './../recipe-ingredients.service';
 import { Ingredients } from './../models/ingredients';
 import { StepsService } from './../steps.service';
@@ -8,22 +7,30 @@ import { RecipesService } from './../recipes.service';
 import { Recipe } from './../models/recipe';
 import { Component, OnInit } from '@angular/core';
 import { Steps } from '../models/steps';
+import { EditType } from './editType';
 
 @Component({
   selector: 'app-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.css']
 })
+
 export class SliderComponent implements OnInit {
   recipes: Recipe[] = [];
   steps: Steps[] = [];
   ingredient: Ingredients[] = [];
   recipeIngredients: RecipeIngredients[] = [];
+  public editType = EditType;
 
   listOfIngredients = [];
 
   public show = true;
-  public buttonShowEdit = 'Edit';
+  public showEditRecipeName = true;
+  public showEditIngredients = true;
+  public showEditSteps = true;
+  public buttonShowEditRecipeName = 'Edit Recipe Name';
+  public buttonShowEditIngredients = 'Edit Ingredients';
+  public buttonShowEditSteps = 'Edit Steps';
 
   public leftPageNumber = 1;
   public rightPageNumber = 2;
@@ -42,13 +49,40 @@ export class SliderComponent implements OnInit {
     this.getRecipeIngredients();
     this.getSteps();
   }
-  toggle() {
-    this.show = !this.show;
 
-    if (this.show) {
-      this.buttonShowEdit = 'Edit';
-    } else {
-      this.buttonShowEdit = 'Done';
+  // Hides/Shows edit options
+  toggleEdit(show: number) {
+    switch (show) {
+      case EditType.RECIPENAME: {
+        this.showEditRecipeName = !this.showEditRecipeName;
+
+        if (this.showEditRecipeName) {
+          this.buttonShowEditRecipeName = 'Edit Recipe Name';
+        } else {
+          this.buttonShowEditRecipeName = 'Done';
+        }
+        break;
+      }
+      case EditType.INGREDIENTS: {
+        this.showEditIngredients = !this.showEditIngredients;
+
+        if (this.showEditIngredients) {
+          this.buttonShowEditIngredients = 'Edit Ingredients';
+        } else {
+          this.buttonShowEditIngredients = 'Done';
+        }
+        break;
+      }
+      case EditType.STEPS: {
+        this.showEditSteps = !this.showEditSteps;
+
+        if (this.showEditSteps) {
+          this.buttonShowEditSteps = 'Edit Steps';
+        } else {
+          this.buttonShowEditSteps = 'Done';
+        }
+        break;
+      }
     }
   }
   turnPage(dir: number) {
@@ -78,8 +112,10 @@ export class SliderComponent implements OnInit {
   }
 
   getRecipes(): void {
+    console.log('getRecipes start');
     this.recipesService.getRecipes().subscribe(recipe => {
       this.recipes = recipe;
+      console.log('getRecipes end');
     });
   }
 
@@ -96,8 +132,10 @@ export class SliderComponent implements OnInit {
       });
   }
   deleteRecipe(recipe: Recipe) {
+    console.log('deleteRecipe start');
     this.recipes = this.recipes.filter(r => r !== recipe);
     this.recipesService.deleteRecipes(recipe).subscribe();
+    console.log('deleteRecipe end');
   }
 
   // ~~~~~~~~~~~~~~~~ INGREDIENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~

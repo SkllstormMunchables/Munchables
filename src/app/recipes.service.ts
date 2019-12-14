@@ -16,6 +16,7 @@ export class RecipesService {
   constructor(private http: HttpClient) {}
 
   getRecipes(): Observable<any[]> {
+    console.log('getRecipes service');
     return this.http.get<any[]>(this.recipesUrl);
   }
 
@@ -24,8 +25,11 @@ export class RecipesService {
   }
 
   deleteRecipes(recipes: Recipe | number): Observable<any> {
+    console.log('deleteRecipes start');
     const id = typeof recipes === 'number' ? recipes : recipes.recipeId;
+    console.log('deleteRecipes middle');
     const url = `${this.recipesUrl}/${id}`;
+    console.log('deleteRecipes end');
     return this.http.delete<any>(url, this.httpHeaders);
   }
 

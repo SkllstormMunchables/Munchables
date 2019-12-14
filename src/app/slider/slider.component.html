@@ -4,30 +4,31 @@
     <div *ngIf="leftPageNumber > 1">
       <button class="turnPageLeft" (click)="turnPage(0)"></button>
     </div>
-    <!-- Display Recipe -->
     <p class="pageNumber">{{ leftPageNumber }}</p>
-
-    <div *ngIf="show; else elseBlock">
-      <h1>{{ this.recipes[leftPageNumber - 1].recipeName }}</h1>
-    </div>
+  <table>
+    <!-- Display Recipe -->
+    <tr *ngIf="showEditRecipeName; else elseBlock">
+      <td colspan="2" class="recipeName">{{ this.recipes[this.leftPageNumber - 1].recipeName }}</td>
+    </tr>
     <ng-template #elseBlock>
-      <div class="flex">
+      <tr>
+      <div class="editRecipeName">
         <div>
-          <!-- Delete ingredient -->
-          <button (click)="deleteRecipe(this.recipes[leftPageNumber - 1])">
+          <!-- Delete Recipe -->
+          <button (click)="deleteRecipe(this.recipes[this.leftPageNumber-1]);">
             X
           </button>
         </div>
         <div>
-            <input type="text" size="1" value={{this.recipes[leftPageNumber-1].recipeName}} />
+          <input class="editRecipeText"type="text" size="1" value={{this.recipes[this.leftPageNumber-1].recipeName}} />
         </div>
       </div>
+    </tr>
     </ng-template>
-    <table>
       <th>
         <!-- Display Ingredients Left Column-->
         <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 0)">
-            <div *ngIf="show; else elseBlock">
+            <div *ngIf="showEditIngredients; else elseBlock">
               <td>
                 {{recipeIngredient.name}}
               </td>
@@ -50,7 +51,7 @@
       <th>
         <!-- Display Ingredients Right Column-->
         <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 1); let i = index">
-          <div *ngIf="show; else elseBlock">
+          <div *ngIf="showEditIngredients; else elseBlock">
             <td>
               {{recipeIngredient.name}}
             </td>
@@ -72,12 +73,12 @@
         <div class="flex">
           <div>
             <!-- Add ingredient -->
-            <button [hidden]="show" (click)="addIngredient(ingredientNameLeft.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); ingredientNameLeft.value=''">
+            <button [hidden]="showEditIngredients" (click)="addIngredient(ingredientNameLeft.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); ingredientNameLeft.value=''">
               Add
             </button>
           </div>
           <div>
-            <input [hidden]="show" size="1" #ingredientNameLeft/>
+            <input [hidden]="showEditIngredients" size="1" #ingredientNameLeft/>
           </div>
         </div>
       </th>
@@ -94,18 +95,18 @@
       <div class="flex" id="StepDiv">
           <div>
             <!-- Add a step -->
-            <button [hidden]="show" (click)="addSteps(step.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); step.value=''">
+            <button [hidden]="showEditSteps" (click)="addSteps(step.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); step.value=''">
               ADD
             </button>
           </div>
           <div>
-            <input [hidden]="show" type="text" class="stepInput" #step />
+            <input [hidden]="showEditSteps" type="text" class="stepInput" #step />
           </div>
         </div>
     </div>
   </div>
 
-<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~PAGE DIVIDER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PAGE DIVIDER ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
 <!-- Right Page -->
 <div class="split right">
@@ -113,19 +114,42 @@
       <button class="turnPageRight" (click)="turnPage(1)"></button>
     </div>
     <!-- Toggle button for editing-->
-    <button (click)="toggle()">
-      {{buttonShowEdit}}
+    <button (click)="toggleEdit(editType.RECIPENAME)">
+      {{buttonShowEditRecipeName}}
     </button>
-  <!-- Display Recipe -->
+    <!-- Toggle button for editing-->
+    <button (click)="toggleEdit(editType.INGREDIENTS)">
+      {{buttonShowEditIngredients}}
+    </button>
+    <!-- Toggle button for editing-->
+    <button (click)="toggleEdit(editType.STEPS)">
+      {{buttonShowEditSteps}}
+    </button>
   <p class="pageNumber">{{ rightPageNumber }}</p>
   <table>
-    <tr>
+    <!-- Display Recipe -->
+    <tr *ngIf="showEditRecipeName; else elseBlock2">
       <td colspan="2" class="recipeName">{{ this.recipes[this.rightPageNumber - 1].recipeName }}</td>
     </tr>
+    <ng-template #elseBlock2>
+      <tr>
+      <div class="editRecipeName">
+        <div>
+          <!-- Delete Recipe -->
+          <button (click)="deleteIngredient(this.recipes[this.rightPageNumber-1]);">
+            X
+          </button>
+        </div>
+        <div>
+          <input class="editRecipeText"type="text" size="1" value={{this.recipes[this.rightPageNumber-1].recipeName}} />
+        </div>
+      </div>
+    </tr>
+    </ng-template>
     <th>
       <!-- Display Ingredients Left Column-->
       <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(rightPageNumber, 0)">
-        <div *ngIf="show; else elseBlock">
+        <div *ngIf="showEditIngredients; else elseBlock">
           <td>
             {{recipeIngredient.name}}
           </td>
@@ -148,7 +172,7 @@
   <th>
     <!-- Display Ingredients Right Column-->
     <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(rightPageNumber, 1); let i = index">
-      <div *ngIf="show; else elseBlock">
+      <div *ngIf="showEditIngredients; else elseBlock">
         <td>
           {{recipeIngredient.name}}
         </td>
@@ -170,12 +194,12 @@
     <div class="flex">
       <div>
         <!-- Add ingredient -->
-        <button [hidden]="show" (click)="addIngredient(ingredientNameRight.value, this.recipes[this.rightPageNumber - 1].recipeId - 1); ingredientNameRight.value=''">
+        <button [hidden]="showEditIngredients" (click)="addIngredient(ingredientNameRight.value, this.recipes[this.rightPageNumber - 1].recipeId - 1); ingredientNameRight.value=''">
           Add
         </button>
       </div>
       <div>
-        <input [hidden]="show" size="1" #ingredientNameRight/>
+        <input [hidden]="showEditIngredients" size="1" #ingredientNameRight/>
       </div>
     </div>
   </th>
@@ -192,12 +216,12 @@
     <div class="flex" id="StepDiv">
       <div>
         <!-- Add a step -->
-        <button [hidden]="show" (click)="addSteps(step.value, this.recipes[rightPageNumber - 1].recipeId - 1); step.value=''">
+        <button [hidden]="showEditSteps" (click)="addSteps(step.value, this.recipes[rightPageNumber - 1].recipeId - 1); step.value=''">
           ADD
         </button>
       </div>
       <div>
-        <input [hidden]="show" type="text" class="stepInput" #step />
+        <input [hidden]="showEditSteps" type="text" class="stepInput" #step />
       </div>
     </div>
   </div>
