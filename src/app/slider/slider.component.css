@@ -84,6 +84,10 @@ table {
   font-size: 0.70cm;
   margin: 0 auto;
 }
+.recipeName {
+  font-size: 1.5cm;
+  text-align: center;
+}
 th {
   text-align: center;
   padding-left: 50px;

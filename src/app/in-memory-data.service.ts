@@ -38,7 +38,7 @@ export class InMemoryDataService implements InMemoryDbService {
     // Fried Pickles
     {ingredientId: 16, name: 'buttermilk' },
     {ingredientId: 17, name: 'pepper' },
-    {ingredientId: 18, name: 'pickles(sliced)' },
+    {ingredientId: 18, name: 'pickles' },
     {ingredientId: 19, name: 'cornmeal' },
     {ingredientId: 20, name: 'seafood seasoning' },
     {ingredientId: 21, name: 'cajun seasoning' },

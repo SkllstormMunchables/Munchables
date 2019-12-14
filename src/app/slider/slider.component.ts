@@ -1,3 +1,4 @@
+import { RecipeIngredients } from './../models/recipeIngredients';
 import { ingredients } from './../mockDB';
 import { RecipeIngredientsService } from './../recipe-ingredients.service';
 import { Ingredients } from './../models/ingredients';
@@ -7,7 +8,6 @@ import { RecipesService } from './../recipes.service';
 import { Recipe } from './../models/recipe';
 import { Component, OnInit } from '@angular/core';
 import { Steps } from '../models/steps';
-import { RecipeIngredients } from '../models/recipeIngredients';
 
 @Component({
   selector: 'app-slider',
@@ -29,6 +29,19 @@ export class SliderComponent implements OnInit {
   public rightPageNumber = 2;
   public numberOfPagesAdded = 2;
 
+  constructor(
+    private recipesService: RecipesService,
+    private ingredientsService: IngredientsService,
+    private recipeIngredientsService: RecipeIngredientsService,
+    private stepsService: StepsService
+  ) {}
+
+  ngOnInit() {
+    this.getRecipes();
+    this.getIngredient();
+    this.getRecipeIngredients();
+    this.getSteps();
+  }
   toggle() {
     this.show = !this.show;
 
@@ -38,19 +51,6 @@ export class SliderComponent implements OnInit {
       this.buttonShowEdit = 'Done';
     }
   }
-  constructor(
-    private recipesService: RecipesService,
-    private ingredientsService: IngredientsService,
-    private stepsService: StepsService,
-    private recipeIngredientsService: RecipeIngredientsService
-  ) {}
-
-  ngOnInit() {
-    this.getRecipes();
-    this.getSteps();
-    this.getIngredient();
-    this.getRecipeIngredients();
-  }
   turnPage(dir: number) {
     if (dir === 0) {
       if (this.leftPageNumber < 0) {
@@ -58,8 +58,6 @@ export class SliderComponent implements OnInit {
       } else {
         this.leftPageNumber -= this.numberOfPagesAdded;
         this.rightPageNumber -= this.numberOfPagesAdded;
-        console.log('if:' + this.leftPageNumber);
-        console.log('if:' + this.rightPageNumber);
       }
     } else {
       if (this.rightPageNumber > this.recipes.length - 1) {
@@ -68,37 +66,21 @@ export class SliderComponent implements OnInit {
         this.leftPageNumber += this.numberOfPagesAdded;
         this.rightPageNumber += this.numberOfPagesAdded;
       }
-      console.log('else:' + this.leftPageNumber);
-      console.log('else:' + this.rightPageNumber);
     }
-    console.log('leftPageNumber: ' + this.leftPageNumber);
-    console.log('rightPageNumber: ' + this.rightPageNumber);
-    console.log('this.ingredient');
-    console.log(' this.recipeIngredients');
   }
+
+  // ~~~~~~~~~~~~~~~~ RECIPES ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   genRecipeId(recipe: Recipe[]): number {
     return recipe.length > 0
       ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1
       : 1;
   }
-  genIngredientId(temp: Ingredients[]): number {
-    return temp.length > 0
-      ? Math.max(...temp.map(ingredient => ingredient.ingredientId)) + 1
-      : 1;
-  }
-  genStepId(temp: Steps[]): number {
-    return temp.length > 0
-      ? Math.max(...temp.map(steps => steps.stepId)) + 1
-      : 1;
-  }
 
-  getRecipeIngredients(): void {
-    this.recipeIngredientsService
-      .getRecipeIngredients()
-      .subscribe(recipeIngredient => {
-        this.recipeIngredients = recipeIngredient;
-      });
+  getRecipes(): void {
+    this.recipesService.getRecipes().subscribe(recipe => {
+      this.recipes = recipe;
+    });
   }
 
   addRecipes(recipeName: string): void {
@@ -113,18 +95,49 @@ export class SliderComponent implements OnInit {
         console.log('addRecipes' + recipe);
       });
   }
-
-  getRecipes(): void {
-    this.recipesService.getRecipes().subscribe(recipe => {
-      this.recipes = recipe;
-    });
-  }
-  getSteps(): void {
-    this.stepsService.getSteps().subscribe(step => {
-      this.steps = step;
-    });
+  deleteRecipe(recipe: Recipe) {
+    this.recipes = this.recipes.filter(r => r !== recipe);
+    this.recipesService.deleteRecipes(recipe).subscribe();
   }
 
+  // ~~~~~~~~~~~~~~~~ INGREDIENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  genIngredientId(temp: Ingredients[]): number {
+    return temp.length > 0
+      ? Math.max(...temp.map(ingredient => ingredient.ingredientId)) + 1
+      : 1;
+  }
+  getIngredient(): void {
+    // tslint:disable-next-line: no-shadowed-variable
+    this.ingredientsService.getIngredients().subscribe(ingredients => {
+      this.ingredient = ingredients;
+    });
+  }
+  /**
+   * Gets all ingredients from a recipe and returns every other ingredient
+   * (half == 0 or half == 1) determines which half
+   * Used for a two column table
+   */
+  getHalfIngredientsFromRecipe(recipeId: number, half: number) {
+    let ingredientTotal = 0;
+    const ingredientList = [];
+    for (const recipeIngredient of this.recipeIngredients) {
+      if (recipeId === recipeIngredient.recipeId) {
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < this.ingredient.length; i++) {
+          if (
+            recipeIngredient.ingredientId === this.ingredient[i].ingredientId
+          ) {
+            if (ingredientTotal % 2 === half) {
+              ingredientList.push(this.ingredient[i]);
+            }
+            ingredientTotal++;
+          }
+        }
+      }
+    }
+    return ingredientList;
+  }
   addIngredient(name: string, recipeId: number): void {
     console.log('addIngredient Begin');
     if (!name) {
@@ -136,42 +149,24 @@ export class SliderComponent implements OnInit {
         temp.ingredientId = this.genIngredientId(this.ingredient);
         this.ingredient.push(temp);
         this.addRecipeIngredientRecipe(recipeId);
-        console.log('addIngredient' + temp);
+        console.log('addIngredient ' + temp);
       });
   }
-  getIngredient(): void {
-    this.ingredientsService.getIngredients().subscribe(ingredients => {
-      this.ingredient = ingredients;
-    });
-  }
-/**
- * Gets all ingredients from a recipe and returns every other ingredient
- * (half == 0 or half == 1) determines which half
- * Used for a two column table
- */
-  getHalfIngredientsFromRecipe(recipeId: number, half: number) {
-    let ingredientTotal = 0;
-    const ingredientList = [];
-    for (const recipeIngredient of this.recipeIngredients) {
-      if (recipeId === recipeIngredient.recipeId) {
-        // tslint:disable-next-line: prefer-for-of
-        for (let i = 0; i < this.ingredient.length; i++) {
-          if (recipeIngredient.ingredientId === this.ingredient[i].ingredientId) {
-            if (ingredientTotal % 2 === half) {
-              ingredientList.push(this.ingredient[i].name);
-            }
-            ingredientTotal++;
-          }
-        }
+  deleteIngredient(ingredient: Ingredients) {
+    for (let i = 0; i < this.recipeIngredients.length; i++) {
+      if (ingredient.ingredientId === this.recipeIngredients[i].ingredientId) {
+        this.recipeIngredients.splice(i, 1);
       }
     }
-    return ingredientList;
   }
-  deleteIngredient(id: number) {
-    console.log('slider.component: deleteIngredient: ' + id);
-    this.ingredientsService.deleteIngredient(this.ingredient[id]).subscribe();
-    this.ingredient.splice(id, 1);
-    console.log('slider.component: deleteIngredient object: ' + this.ingredient[id]);
+  // ~~~~~~~~~~~~~~~~ RECIPE INGREDIENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  getRecipeIngredients(): void {
+    this.recipeIngredientsService
+      .getRecipeIngredients()
+      .subscribe(recipeIngredient => {
+        this.recipeIngredients = recipeIngredient;
+      });
   }
   addRecipeIngredientRecipe(id: number): void {
     const tempRecipeIngredient = new RecipeIngredients();
@@ -183,6 +178,19 @@ export class SliderComponent implements OnInit {
 
     this.recipeIngredients.push(tempRecipeIngredient);
     console.log('addRecipeIngredientRecipe' + this.recipeIngredients);
+  }
+
+  // ~~~~~~~~~~~~~~~~~~~~ STEPS ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  genStepId(temp: Steps[]): number {
+    return temp.length > 0
+      ? Math.max(...temp.map(steps => steps.stepId)) + 1
+      : 1;
+  }
+  getSteps(): void {
+    this.stepsService.getSteps().subscribe(step => {
+      this.steps = step;
+    });
   }
   addSteps(step: string, recipeId: number): void {
     console.log('addStep Begin');
