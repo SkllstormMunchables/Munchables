@@ -27,7 +27,7 @@
     </ng-template>
       <th>
         <!-- Display Ingredients Left Column-->
-        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 0)">
+        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.leftPageNumber - 1].recipeId, 0)">
             <div *ngIf="showEditIngredients; else elseBlock">
               <td>
                 {{recipeIngredient.name}}
@@ -37,7 +37,7 @@
               <div class="flex">
                 <div>
                   <!-- Delete ingredient -->
-                  <button (click)="deleteIngredient(recipeIngredient);">
+                  <button (click)="deleteIngredient(recipeIngredient, this.recipes[this.leftPageNumber - 1].recipeId)">
                     X
                   </button>
                 </div>
@@ -50,7 +50,7 @@
       </th>
       <th>
         <!-- Display Ingredients Right Column-->
-        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(leftPageNumber, 1); let i = index">
+        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.leftPageNumber - 1].recipeId, 1); let i = index">
           <div *ngIf="showEditIngredients; else elseBlock">
             <td>
               {{recipeIngredient.name}}
@@ -60,7 +60,7 @@
           <div class="flex">
             <div>
               <!-- Delete ingredient -->
-              <button (click)="deleteIngredient(recipeIngredient)">
+              <button (click)="deleteIngredient(recipeIngredient, this.recipes[this.leftPageNumber - 1].recipeId)">
                 X
               </button>
             </div>
@@ -86,21 +86,39 @@
     <!-- Display Steps -->
   <div class="steps">
       <ol>
-        <div *ngFor="let step of steps">
-          <li *ngIf="this.recipes[this.leftPageNumber - 1].recipeId === step.recipeId">
-             {{ step.step }}
+        <div *ngFor="let step of getStepsFromRecipe(this.recipes[this.leftPageNumber - 1].recipeId)">
+          <div *ngIf="showEditSteps; else elseBlock3">
+          <li>
+            {{ step.step }}
           </li>
         </div>
+        <ng-template #elseBlock3>
+          <div class="flex">
+            <div>
+              <!-- Delete a step -->
+              <button (click)="deleteStep(step)">
+                X
+              </button>
+            </div>
+            <div>
+                <input type="text" class="stepInput" value={{step.step}} #StepLeft/>
+            </div>
+            <button (click)="updateSteps(StepLeft.value, step)">
+              Save
+            </button>
+          </div>
+        </ng-template>
+      </div>
       </ol>
       <div class="flex" id="StepDiv">
           <div>
             <!-- Add a step -->
-            <button [hidden]="showEditSteps" (click)="addSteps(step.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); step.value=''">
+            <button [hidden]="showEditSteps" (click)="addSteps(stepvalue.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); stepvalue.value=''">
               ADD
             </button>
           </div>
           <div>
-            <input [hidden]="showEditSteps" type="text" class="stepInput" #step />
+            <input [hidden]="showEditSteps" type="text" class="stepInput" #stepvalue />
           </div>
         </div>
     </div>
@@ -110,18 +128,18 @@
 
 <!-- Right Page -->
 <div class="split right">
-    <div *ngIf="this.rightPageNumber < this.recipes.length - 1">
+    <div *ngIf="this.rightPageNumber < this.recipes.length">
       <button class="turnPageRight" (click)="turnPage(1)"></button>
     </div>
-    <!-- Toggle button for editing-->
+    <!-- Toggle button for editing recipe name -->
     <button (click)="toggleEdit(editType.RECIPENAME)">
       {{buttonShowEditRecipeName}}
     </button>
-    <!-- Toggle button for editing-->
+    <!-- Toggle button for editing ingredients -->
     <button (click)="toggleEdit(editType.INGREDIENTS)">
       {{buttonShowEditIngredients}}
     </button>
-    <!-- Toggle button for editing-->
+    <!-- Toggle button for editing steps -->
     <button (click)="toggleEdit(editType.STEPS)">
       {{buttonShowEditSteps}}
     </button>
@@ -136,19 +154,22 @@
       <div class="editRecipeName">
         <div>
           <!-- Delete Recipe -->
-          <button (click)="deleteIngredient(this.recipes[this.rightPageNumber-1]);">
+          <button (click)="deleteRecipe(this.recipes[this.rightPageNumber - 1]);">
             X
           </button>
         </div>
         <div>
-          <input class="editRecipeText"type="text" size="1" value={{this.recipes[this.rightPageNumber-1].recipeName}} />
+          <input class="editRecipeText"type="text" size="1" value={{this.recipes[this.rightPageNumber-1].recipeName}} #RecipeNameRight/>
         </div>
+        <button (click)="updateRecipe(RecipeNameRight.value, this.recipes[this.rightPageNumber - 1])">
+          Save
+        </button>
       </div>
     </tr>
     </ng-template>
     <th>
       <!-- Display Ingredients Left Column-->
-      <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(rightPageNumber, 0)">
+      <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.rightPageNumber - 1].recipeId, 0)">
         <div *ngIf="showEditIngredients; else elseBlock">
           <td>
             {{recipeIngredient.name}}
@@ -158,7 +179,7 @@
           <div class="flex">
             <div>
               <!-- Delete ingredient -->
-              <button (click)="deleteIngredient(recipeIngredient);">
+              <button (click)="deleteIngredient(recipeIngredient, this.recipes[this.rightPageNumber - 1].recipeId)">
                 X
               </button>
             </div>
@@ -171,7 +192,7 @@
   </th>
   <th>
     <!-- Display Ingredients Right Column-->
-    <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(rightPageNumber, 1); let i = index">
+    <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.rightPageNumber - 1].recipeId, 1); let i = index">
       <div *ngIf="showEditIngredients; else elseBlock">
         <td>
           {{recipeIngredient.name}}
@@ -181,7 +202,7 @@
       <div class="flex">
         <div>
           <!-- Delete ingredient -->
-          <button (click)="deleteIngredient(recipeIngredient)">
+          <button (click)="deleteIngredient(recipeIngredient, this.recipes[this.rightPageNumber - 1].recipeId)">
             X
           </button>
         </div>
@@ -207,11 +228,29 @@
   <!-- Display Steps -->
   <div class="steps">
     <ol>
-      <div *ngFor="let step of steps">
-        <li *ngIf="this.recipes[rightPageNumber - 1].recipeId === step.recipeId">
+      <div *ngFor="let step of getStepsFromRecipe(this.recipes[this.rightPageNumber - 1].recipeId)">
+        <div *ngIf="showEditSteps; else elseBlock3">
+        <li>
           {{ step.step }}
         </li>
       </div>
+      <ng-template #elseBlock3>
+        <div class="flex">
+          <div>
+            <!-- Delete a step -->
+            <button (click)="deleteStep(step)">
+              X
+            </button>
+          </div>
+          <div>
+              <input type="text" class="stepInput" value={{step.step}} #StepRight/>
+          </div>
+          <button (click)="updateSteps(StepRight.value, step)">
+            Save
+          </button>
+        </div>
+      </ng-template>
+    </div>
     </ol>
     <div class="flex" id="StepDiv">
       <div>

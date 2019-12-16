@@ -108,13 +108,10 @@ th {
   padding-right: 50px;
 }
 
-h1, p {
+p {
   font-family: fantasy;
   font-style: italic;
   text-align: center;
-}
-h1 {
-  font-size: 1.5cm;
 }
 .steps {
   position: absolute;
@@ -124,6 +121,7 @@ h1 {
 ol {
   font-family: fantasy;
   font-style: italic;
+  font-size: 0.75cm;
 }
 li {
   list-style-type: none;

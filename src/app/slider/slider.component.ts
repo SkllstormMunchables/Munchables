@@ -1,3 +1,4 @@
+import { recipe } from './../mockDB';
 import { RecipeIngredients } from './../models/recipeIngredients';
 import { RecipeIngredientsService } from './../recipe-ingredients.service';
 import { Ingredients } from './../models/ingredients';
@@ -14,7 +15,6 @@ import { EditType } from './editType';
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.css']
 })
-
 export class SliderComponent implements OnInit {
   recipes: Recipe[] = [];
   steps: Steps[] = [];
@@ -24,7 +24,7 @@ export class SliderComponent implements OnInit {
 
   listOfIngredients = [];
 
-  public show = true;
+  // public show = true;
   public showEditRecipeName = true;
   public showEditIngredients = true;
   public showEditSteps = true;
@@ -51,8 +51,8 @@ export class SliderComponent implements OnInit {
   }
 
   // Hides/Shows edit options
-  toggleEdit(show: number) {
-    switch (show) {
+  toggleEdit(toggle: number) {
+    switch (toggle) {
       case EditType.RECIPENAME: {
         this.showEditRecipeName = !this.showEditRecipeName;
 
@@ -105,6 +105,7 @@ export class SliderComponent implements OnInit {
 
   // ~~~~~~~~~~~~~~~~ RECIPES ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  // tslint:disable-next-line: no-shadowed-variable
   genRecipeId(recipe: Recipe[]): number {
     return recipe.length > 0
       ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1
@@ -112,10 +113,11 @@ export class SliderComponent implements OnInit {
   }
 
   getRecipes(): void {
-    console.log('getRecipes start');
+    console.log('getRecipes: start');
+    // tslint:disable-next-line: no-shadowed-variable
     this.recipesService.getRecipes().subscribe(recipe => {
       this.recipes = recipe;
-      console.log('getRecipes end');
+      console.log('getRecipes: end');
     });
   }
 
@@ -125,19 +127,26 @@ export class SliderComponent implements OnInit {
     }
     this.recipesService
       .addRecipes({ recipeName } as Recipe)
+      // tslint:disable-next-line: no-shadowed-variable
       .subscribe(recipe => {
         recipe.recipeId = this.genRecipeId(this.recipes);
         this.recipes.push(recipe);
-        console.log('addRecipes' + recipe);
       });
   }
+  // tslint:disable-next-line: no-shadowed-variable
+  updateRecipe(name: string, recipe: Recipe) {
+    if (!name) {
+      return;
+    }
+    this.recipes[recipe.recipeId - 1].recipeName = name;
+    this.recipesService.updateRecipes(this.recipes[recipe.recipeId - 1]);
+    this.toggleEdit(this.editType.RECIPENAME);
+  }
+  // tslint:disable-next-line: no-shadowed-variable
   deleteRecipe(recipe: Recipe) {
-    console.log('deleteRecipe start');
     this.recipes = this.recipes.filter(r => r !== recipe);
     this.recipesService.deleteRecipes(recipe).subscribe();
-    console.log('deleteRecipe end');
   }
-
   // ~~~~~~~~~~~~~~~~ INGREDIENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   genIngredientId(temp: Ingredients[]): number {
@@ -177,7 +186,6 @@ export class SliderComponent implements OnInit {
     return ingredientList;
   }
   addIngredient(name: string, recipeId: number): void {
-    console.log('addIngredient Begin');
     if (!name) {
       return;
     }
@@ -187,13 +195,17 @@ export class SliderComponent implements OnInit {
         temp.ingredientId = this.genIngredientId(this.ingredient);
         this.ingredient.push(temp);
         this.addRecipeIngredientRecipe(recipeId);
-        console.log('addIngredient ' + temp);
       });
   }
-  deleteIngredient(ingredient: Ingredients) {
-    for (let i = 0; i < this.recipeIngredients.length; i++) {
-      if (ingredient.ingredientId === this.recipeIngredients[i].ingredientId) {
-        this.recipeIngredients.splice(i, 1);
+  deleteIngredient(ingredient: Ingredients, recipeId: number) {
+    for (let i = 0; this.recipeIngredients.length; i++) {
+      if (recipeId === this.recipeIngredients[i].recipeId) {
+        if (
+          ingredient.ingredientId === this.recipeIngredients[i].ingredientId
+        ) {
+          this.recipeIngredients.splice(i, 1);
+          console.log(this.recipeIngredients);
+        }
       }
     }
   }
@@ -215,7 +227,6 @@ export class SliderComponent implements OnInit {
     tempRecipeIngredient.recipeId = this.recipes[id].recipeId;
 
     this.recipeIngredients.push(tempRecipeIngredient);
-    console.log('addRecipeIngredientRecipe' + this.recipeIngredients);
   }
 
   // ~~~~~~~~~~~~~~~~~~~~ STEPS ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -231,14 +242,45 @@ export class SliderComponent implements OnInit {
     });
   }
   addSteps(step: string, recipeId: number): void {
-    console.log('addStep Begin');
     this.stepsService.addSteps({ step } as Steps).subscribe(temp => {
       temp = new Steps();
       temp.step = step;
       temp.stepId = this.genStepId(this.steps);
       temp.recipeId = this.recipes[recipeId].recipeId;
       this.steps.push(temp);
-      console.log('addStep' + this.steps);
     });
+  }
+  getStepsFromRecipe(recipeId: number) {
+    const stepsList = [];
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.steps.length; i++) {
+      if (recipeId === this.steps[i].recipeId) {
+        stepsList.push(this.steps[i]);
+      }
+    }
+    return stepsList;
+  }
+  updateSteps(name: string, step: Steps) {
+    if (!name) {
+      return;
+    }
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.steps.length; i++) {
+      if (step.stepId === this.steps[i].stepId) {
+        this.steps[i].step = name;
+        this.stepsService.updateSteps(this.steps[i]);
+      }
+    }
+    this.toggleEdit(this.editType.STEPS);
+  }
+  deleteStep(step: Steps) {
+    console.log('deleteStep: ', step);
+    for (let i = 0; i < this.steps.length; i++) {
+      if (step.stepId === this.steps[i].stepId) {
+        this.steps.splice(i, 1);
+        this.stepsService.deleteSteps(this.steps[i]);
+      }
+    }
+    console.log('deleteStep: ', this.steps);
   }
 }
