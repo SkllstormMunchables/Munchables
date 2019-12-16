@@ -111,16 +111,94 @@
   </div>
 </div>
 
-// Working on generating id's for ingredients
-genIngredientId(temp: Ingredients[]): number {
-    return temp.length > 0 ? Math.max(...temp.map(ingredient => ingredient.ingredientId)) + 1 : 1;
-  }
-  
-  addIngredient(name: string): void {
-    this.ingredientsService.addIngredient({name} as Ingredients).subscribe(temp => {
-      temp.ingredientId = this.genIngredientId(this.ingredient);
-      temp.recipeId = 5;//this.genRecipeId(this.ingredient);
-      this.ingredient.push(temp);
-      console.log(temp);
-    });
-  }
+
+// Current Display in Slider
+<!-- Display Recipe Name -->
+<div id="justify_content" *ngFor="let recipe of recipes">
+  <h1 class="card-title">  {{ recipe.recipeName }} </h1>
+  <!-- Display Ingredient Name -->
+  <div *ngFor="let recipeIngredient of recipeIngredients; let i = index">
+    <div class="card-text" *ngIf="recipe.recipeId === recipeIngredient.recipeId">
+      <p>
+        {{ this.ingredient[i].name }}
+    </p>
+    </div>
+  </div>
+  <!-- Display Steps -->
+  <div *ngFor="let step of steps">
+    <p class="card-text" *ngIf="recipe.recipeId === step.recipeId">
+      {{ step.step }}
+    </p>
+  </div>
+</div>
+
+
+<div>
+  <label>Recipe name:
+    <input #recipeName />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="addRecipes(recipeName.value); recipeName.value=''">
+    add
+  </button>
+</div>
+<div>
+  <label>Ingredient:
+    <input #ingredientName />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="addIngredient(ingredientName.value); ingredientName.value=''">
+    add
+  </button>
+</div>
+<div>
+  <label>Step:
+    <input #step />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="addIngredient(step.value); step.value=''">
+    add
+  </button>
+</div>
+
+
+/* ************* Split Screen ******************* */
+/* Split the screen in half */
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  background-color: rgb(255, 224, 188);
+  background-image: linear-gradient(to right,rgba(0,0,0,0),rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0.5));
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  background-color: rgb(255, 224, 188);
+  background-image: linear-gradient(to right, rgba(0,0,0,0.5), rgba(0,0,0,0), rgba(0,0,0,0), rgba(0,0,0,0));
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Style the image inside the centered container, if needed */
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+}

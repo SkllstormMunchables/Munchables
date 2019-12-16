@@ -1,0 +1,129 @@
+/* Split the screen in half */
+.split {
+  height: 100%;
+  width: 50%;
+  position: absolute;
+  /* z-index: 1; */
+  top: 56px;
+  /* overflow-x: hidden; */
+  /* padding-top: 40px; */
+}
+.pageNumber {
+  font-family: fantasy;
+  font-style: italic;
+  font-size: 1cm;
+  margin: 0;
+
+}
+/* Control the left side */
+.left {
+  left: 0;
+  background-color: rgb(250, 224, 188);
+   background-image: linear-gradient(to right,rgba(0,0,0,0.2), rgba(0,0,0,0), rgba(0,0,0,0),
+                                  rgba(0,0,0,0), rgba(0,0,0,0.8)), url(PaperTextureMirrored.png);
+   background-size: cover;
+
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  background-color: rgb(250, 224, 188);
+  background-image: linear-gradient(to left, rgba(0,0,0,0.2), rgba(0,0,0,0),rgba(0,0,0,0),
+                                 rgba(0,0,0,0), rgba(0,0,0,0.8)), url(PaperTextureMirrored.png);
+  background-size: cover;
+}
+
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+#StepDiv{
+  padding-left: 40px;
+}
+button {
+  height: 1cm;
+  text-align: middle;
+  background-image: url(PaperTextureMirrored.png);
+}
+
+.turnPageLeft {
+  width: 140px;
+  height: 90px;
+  position: absolute;
+  background-image: url(PageCorner.png);
+  background-size: cover;
+  padding: 0;
+  border: none;
+  box-shadow: -10px 20px 20px rgb(61, 58, 58) ;
+}
+.turnPageRight {
+  width: 140px;
+  height: 90px;
+  position: absolute;
+  right: 0;
+  background-image: url(PageCornerMirrored.png);
+  background-size: cover;
+  padding: 0;
+  border: none;
+  box-shadow: 10px 20px 20px rgb(61, 58, 58) ;
+}
+input {
+  height: 1cm;
+  background-color: antiquewhite;
+}
+.stepInput {
+  width: 13cm;
+}
+.editRecipeName {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  left: 50%;
+  width: 5cm;
+  padding-bottom: 30px;
+}
+.editRecipeText {
+  font-size: 1.5cm;
+  height: 1.5cm;
+}
+table {
+  font-size: 0.70cm;
+  font-weight: lighter;
+  font-family: fantasy;
+  font-style: italic;
+  margin: 0 auto;
+}
+.recipeName {
+  font-size: 1.5cm;
+  width: 5cm;
+  text-align: center;
+}
+th {
+  text-align: center;
+/* width: 5cm; */
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+p {
+  font-family: fantasy;
+  font-style: italic;
+  text-align: center;
+}
+.steps {
+  position: absolute;
+  bottom: 50px;
+  padding-left: 50px;
+}
+ol {
+  font-family: fantasy;
+  font-style: italic;
+  font-size: 0.75cm;
+}
+li {
+  list-style-type: none;
+  font-size: 0.75cm;
+}
+
