@@ -15,6 +15,7 @@ import { AddStepsComponent } from './add-steps/add-steps.component';
 import { ListRecipeComponent } from './list-recipe/list-recipe.component';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
+import { FlipBookComponent } from './flip-book/flip-book.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { InMemoryDataService } from './in-memory-data.service';
     ModalComponent,
     AddIngredientsComponent,
     AddStepsComponent,
-    ListRecipeComponent
+    ListRecipeComponent,
+    FlipBookComponent
   ],
   imports: [
     BrowserModule,

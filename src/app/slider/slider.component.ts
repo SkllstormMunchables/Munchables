@@ -1,3 +1,4 @@
+
 import { recipe } from './../mockDB';
 import { RecipeIngredients } from './../models/recipeIngredients';
 import { RecipeIngredientsService } from './../recipe-ingredients.service';
@@ -11,9 +12,9 @@ import { Steps } from '../models/steps';
 import { EditType } from './editType';
 
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.css']
+  selector: "app-slider",
+  templateUrl: "./slider.component.html",
+  styleUrls: ["./slider.component.css"]
 })
 export class SliderComponent implements OnInit {
   recipes: Recipe[] = [];
@@ -39,6 +40,7 @@ export class SliderComponent implements OnInit {
   constructor(
     private recipesService: RecipesService,
     private ingredientsService: IngredientsService,
+
     private recipeIngredientsService: RecipeIngredientsService,
     private stepsService: StepsService
   ) {}
@@ -50,7 +52,7 @@ export class SliderComponent implements OnInit {
     this.getSteps();
   }
 
-  // Hides/Shows edit options
+// Hides/Shows edit options
   toggleEdit(toggle: number) {
     switch (toggle) {
       case EditType.RECIPENAME: {
@@ -110,6 +112,7 @@ export class SliderComponent implements OnInit {
     return recipe.length > 0
       ? Math.max(...recipe.map(recipes => recipes.recipeId)) + 1
       : 1;
+
   }
 
   getRecipes(): void {
@@ -120,6 +123,7 @@ export class SliderComponent implements OnInit {
       console.log('getRecipes: end');
     });
   }
+
 
   addRecipes(recipeName: string): void {
     if (!recipeName) {
