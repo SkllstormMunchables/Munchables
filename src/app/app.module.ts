@@ -15,7 +15,7 @@ import { AddStepsComponent } from './add-steps/add-steps.component';
 import { ListRecipeComponent } from './list-recipe/list-recipe.component';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
-import { FlipBookComponent } from './flip-book/flip-book.component';
+
 
 
 @NgModule({
@@ -29,12 +29,7 @@ import { FlipBookComponent } from './flip-book/flip-book.component';
     AddIngredientsComponent,
     AddStepsComponent,
     ListRecipeComponent,
-<<<<<<< HEAD
-    FlipBookComponent
-  ],
-=======
    ],
->>>>>>> fea955026fdc6ccc1d2ac9484483c5716d791fe2
   imports: [
     BrowserModule,
     AppRoutingModule,
