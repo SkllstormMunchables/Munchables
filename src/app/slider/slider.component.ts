@@ -1,4 +1,4 @@
-import { recipe } from './../mockDB';
+import { ingredients } from './../mockDB';
 import { RecipeIngredients } from './../models/recipeIngredients';
 import { RecipeIngredientsService } from './../recipe-ingredients.service';
 import { Ingredients } from './../models/ingredients';
@@ -24,13 +24,12 @@ export class SliderComponent implements OnInit {
 
   listOfIngredients = [];
 
-  // public show = true;
-  public showEditRecipeName = true;
-  public showEditIngredients = true;
-  public showEditSteps = true;
-  public buttonShowEditRecipeName = 'Edit Recipe Name';
-  public buttonShowEditIngredients = 'Edit Ingredients';
-  public buttonShowEditSteps = 'Edit Steps';
+  public showEditRecipeNameLeft = true;
+  public showEditRecipeNameRight = true;
+  public showEditIngredientsLeft = true;
+  public showEditIngredientsRight = true;
+  public showEditStepsLeft = true;
+  public showEditStepsRight = true;
 
   public leftPageNumber = 1;
   public rightPageNumber = 2;
@@ -49,42 +48,46 @@ export class SliderComponent implements OnInit {
     this.getRecipeIngredients();
     this.getSteps();
   }
-
+  myFunction() {
+    console.log('double click');
+    this.showEditRecipeNameLeft = !this.showEditRecipeNameLeft;
+  }
   // Hides/Shows edit options
-  toggleEdit(toggle: number) {
+  toggleEdit(toggle: number, page: number) {
     switch (toggle) {
       case EditType.RECIPENAME: {
-        this.showEditRecipeName = !this.showEditRecipeName;
-
-        if (this.showEditRecipeName) {
-          this.buttonShowEditRecipeName = 'Edit Recipe Name';
+        // Toggle left page recipe edit
+        if (page === EditType.LEFTPAGE) {
+          this.showEditRecipeNameLeft = !this.showEditRecipeNameLeft;
+          // Toggle right page recipe edit
         } else {
-          this.buttonShowEditRecipeName = 'Done';
+          this.showEditRecipeNameRight = !this.showEditRecipeNameRight;
         }
         break;
       }
       case EditType.INGREDIENTS: {
-        this.showEditIngredients = !this.showEditIngredients;
-
-        if (this.showEditIngredients) {
-          this.buttonShowEditIngredients = 'Edit Ingredients';
+        // Toggle left page ingredient edit
+        if (page === EditType.LEFTPAGE) {
+          this.showEditIngredientsLeft = !this.showEditIngredientsLeft;
         } else {
-          this.buttonShowEditIngredients = 'Done';
+          // Toggle right page ingredient edit
+          this.showEditIngredientsRight = !this.showEditIngredientsRight;
         }
         break;
       }
       case EditType.STEPS: {
-        this.showEditSteps = !this.showEditSteps;
-
-        if (this.showEditSteps) {
-          this.buttonShowEditSteps = 'Edit Steps';
+        // Toggle left page step edit
+        if (page === EditType.LEFTPAGE) {
+          this.showEditStepsLeft = !this.showEditStepsLeft;
         } else {
-          this.buttonShowEditSteps = 'Done';
+          // Toggle right page step edit
+          this.showEditStepsRight = !this.showEditStepsRight;
         }
         break;
       }
     }
   }
+
   turnPage(dir: number) {
     if (dir === 0) {
       if (this.leftPageNumber < 0) {
@@ -101,6 +104,13 @@ export class SliderComponent implements OnInit {
         this.rightPageNumber += this.numberOfPagesAdded;
       }
     }
+    // Ensure edits are closed when moving to new recipe
+    this.showEditRecipeNameLeft = true;
+    this.showEditRecipeNameRight = true;
+    this.showEditIngredientsLeft = true;
+    this.showEditIngredientsRight = true;
+    this.showEditStepsLeft = true;
+    this.showEditStepsRight = true;
   }
 
   // ~~~~~~~~~~~~~~~~ RECIPES ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,11 +123,9 @@ export class SliderComponent implements OnInit {
   }
 
   getRecipes(): void {
-    console.log('getRecipes: start');
     // tslint:disable-next-line: no-shadowed-variable
     this.recipesService.getRecipes().subscribe(recipe => {
       this.recipes = recipe;
-      console.log('getRecipes: end');
     });
   }
 
@@ -140,12 +148,19 @@ export class SliderComponent implements OnInit {
     }
     this.recipes[recipe.recipeId - 1].recipeName = name;
     this.recipesService.updateRecipes(this.recipes[recipe.recipeId - 1]);
-    this.toggleEdit(this.editType.RECIPENAME);
+
+    // Close the edit windows
+    this.showEditRecipeNameLeft = true;
+    this.showEditRecipeNameRight = true;
   }
   // tslint:disable-next-line: no-shadowed-variable
   deleteRecipe(recipe: Recipe) {
     this.recipes = this.recipes.filter(r => r !== recipe);
     this.recipesService.deleteRecipes(recipe).subscribe();
+
+    // Close the edit windows
+    this.showEditRecipeNameLeft = true;
+    this.showEditRecipeNameRight = true;
   }
   // ~~~~~~~~~~~~~~~~ INGREDIENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -209,6 +224,11 @@ export class SliderComponent implements OnInit {
       }
     }
   }
+  // deleteIngredientElement(column: number, row: number, ingredient: Ingredients, recipeId: number) {
+  //   // document.getElementsByTagName('th').item(column).getElementsByTagName('td')[row].remove();
+  //   // document.getElementsByTagName('th').item(column).getElementsByTagName('td')[row].hidden = true;
+  //   this.deleteIngredient(ingredient, recipeId);
+  // }
   // ~~~~~~~~~~~~~~~~ RECIPE INGREDIENTS ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   getRecipeIngredients(): void {
@@ -216,7 +236,7 @@ export class SliderComponent implements OnInit {
       .getRecipeIngredients()
       .subscribe(recipeIngredient => {
         this.recipeIngredients = recipeIngredient;
-      });
+            });
   }
   addRecipeIngredientRecipe(id: number): void {
     const tempRecipeIngredient = new RecipeIngredients();
@@ -271,7 +291,7 @@ export class SliderComponent implements OnInit {
         this.stepsService.updateSteps(this.steps[i]);
       }
     }
-    this.toggleEdit(this.editType.STEPS);
+    // this.toggleEdit(this.editType.STEPS);
   }
   deleteStep(step: Steps) {
     console.log('deleteStep: ', step);

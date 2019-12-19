@@ -7,7 +7,7 @@
     <p class="pageNumber">{{ leftPageNumber }}</p>
   <table>
     <!-- Display Recipe -->
-    <tr *ngIf="showEditRecipeName; else elseBlock">
+    <tr (dblclick)="toggleEdit(editType.RECIPENAME, editType.LEFTPAGE)" *ngIf="showEditRecipeNameLeft; else elseBlock">
       <td colspan="2" class="recipeName">{{ this.recipes[this.leftPageNumber - 1].recipeName }}</td>
     </tr>
     <ng-template #elseBlock>
@@ -20,75 +20,54 @@
           </button>
         </div>
         <div>
-          <input class="editRecipeText"type="text" size="1" value={{this.recipes[this.leftPageNumber-1].recipeName}} />
+          <input (dblclick)="toggleEdit(editType.RECIPENAME, editType.LEFTPAGE)" class="editRecipeText"type="text" size="1" value={{this.recipes[this.leftPageNumber-1].recipeName}} #RecipeNameLeftt/>
         </div>
+        <button (click)="updateRecipe(RecipeNameLeftt.value, this.recipes[this.leftPageNumber - 1])">
+          Save
+        </button>
       </div>
     </tr>
     </ng-template>
       <th>
         <!-- Display Ingredients Left Column-->
-        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.leftPageNumber - 1].recipeId, 0)">
-            <div *ngIf="showEditIngredients; else elseBlock">
-              <td>
-                {{recipeIngredient.name}}
-              </td>
-            </div>
-              <ng-template #elseBlock>
-              <div class="flex">
-                <div>
-                  <!-- Delete ingredient -->
-                  <button (click)="deleteIngredient(recipeIngredient, this.recipes[this.leftPageNumber - 1].recipeId)">
-                    X
-                  </button>
-                </div>
-                <div>
-                    <input type="text" size="1" value={{recipeIngredient.name}} />
-                </div>
-              </div>
-            </ng-template>
+        <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.leftPageNumber - 1].recipeId, 0); let i = index">
+          <td (dblclick)="deleteIngredient(recipeIngredient, this.recipes[this.leftPageNumber - 1].recipeId)">
+            {{recipeIngredient.name}}
+          </td>
         </div>
       </th>
-      <th>
+      <th id="rightIngredient">
         <!-- Display Ingredients Right Column-->
         <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.leftPageNumber - 1].recipeId, 1); let i = index">
-          <div *ngIf="showEditIngredients; else elseBlock">
-            <td>
-              {{recipeIngredient.name}}
-            </td>
-          </div>
-          <ng-template #elseBlock>
-          <div class="flex">
-            <div>
-              <!-- Delete ingredient -->
-              <button (click)="deleteIngredient(recipeIngredient, this.recipes[this.leftPageNumber - 1].recipeId)">
-                X
-              </button>
-            </div>
-            <div>
-                <input type="text" size="1" value={{recipeIngredient.name}} />
-            </div>
-          </div>
-        </ng-template>
+          <td (dblclick)="deleteIngredient(recipeIngredient, this.recipes[this.leftPageNumber - 1].recipeId)">
+            {{recipeIngredient.name}}
+          </td>
         </div>
         <div class="flex">
           <div>
             <!-- Add ingredient -->
-            <button [hidden]="showEditIngredients" (click)="addIngredient(ingredientNameLeft.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); ingredientNameLeft.value=''">
-              Add
+            <button [hidden]="!showEditIngredientsLeft" (click)="toggleEdit(editType.INGREDIENTS, editType.LEFTPAGE)">
+              +
+            </button>
+            <button [hidden]="showEditIngredientsLeft" (click)="toggleEdit(editType.INGREDIENTS, editType.LEFTPAGE)">
+              X
             </button>
           </div>
           <div>
-            <input [hidden]="showEditIngredients" size="1" #ingredientNameLeft/>
+            <input [hidden]="showEditIngredientsLeft" size="1" #ingredientNameLeft/>
           </div>
+          <button [hidden]="showEditIngredientsLeft" (click)="addIngredient(ingredientNameLeft.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); ingredientNameLeft.value=''">
+            Add
+          </button>
         </div>
       </th>
     </table>
     <!-- Display Steps -->
   <div class="steps">
       <ol>
-        <div *ngFor="let step of getStepsFromRecipe(this.recipes[this.leftPageNumber - 1].recipeId)">
-          <div *ngIf="showEditSteps; else elseBlock3">
-          <li>
+        <div *ngFor="let step of getStepsFromRecipe(this.recipes[this.leftPageNumber - 1].recipeId); let i = index">
+          <div *ngIf="showEditStepsLeft; else elseBlock3">
+          <li (dblclick)="toggleEdit(editType.STEPS, editType.LEFTPAGE)">
             {{ step.step }}
           </li>
         </div>
@@ -101,7 +80,7 @@
               </button>
             </div>
             <div>
-                <input type="text" class="stepInput" value={{step.step}} #StepLeft/>
+                <input (dblclick)="toggleEdit(editType.STEPS, editType.LEFTPAGE)" id="leftStep" type="text" class="stepInput" value={{step.step}} #StepLeft/>
             </div>
             <button (click)="updateSteps(StepLeft.value, step)">
               Save
@@ -113,12 +92,12 @@
       <div class="flex" id="StepDiv">
           <div>
             <!-- Add a step -->
-            <button [hidden]="showEditSteps" (click)="addSteps(stepvalue.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); stepvalue.value=''">
+            <button [hidden]="showEditStepsLeft" (click)="addSteps(stepvalue.value, this.recipes[this.leftPageNumber - 1].recipeId - 1); stepvalue.value=''">
               ADD
             </button>
           </div>
           <div>
-            <input [hidden]="showEditSteps" type="text" class="stepInput" #stepvalue />
+            <input [hidden]="showEditStepsLeft" type="text" class="stepInput" #stepvalue />
           </div>
         </div>
     </div>
@@ -131,22 +110,10 @@
     <div *ngIf="this.rightPageNumber < this.recipes.length">
       <button class="turnPageRight" (click)="turnPage(1)"></button>
     </div>
-    <!-- Toggle button for editing recipe name -->
-    <button (click)="toggleEdit(editType.RECIPENAME)">
-      {{buttonShowEditRecipeName}}
-    </button>
-    <!-- Toggle button for editing ingredients -->
-    <button (click)="toggleEdit(editType.INGREDIENTS)">
-      {{buttonShowEditIngredients}}
-    </button>
-    <!-- Toggle button for editing steps -->
-    <button (click)="toggleEdit(editType.STEPS)">
-      {{buttonShowEditSteps}}
-    </button>
   <p class="pageNumber">{{ rightPageNumber }}</p>
   <table>
     <!-- Display Recipe -->
-    <tr *ngIf="showEditRecipeName; else elseBlock2">
+    <tr (dblclick)="toggleEdit(editType.RECIPENAME, editType.RIGHTPAGE)" *ngIf="showEditRecipeNameRight; else elseBlock2">
       <td colspan="2" class="recipeName">{{ this.recipes[this.rightPageNumber - 1].recipeName }}</td>
     </tr>
     <ng-template #elseBlock2>
@@ -159,7 +126,7 @@
           </button>
         </div>
         <div>
-          <input class="editRecipeText"type="text" size="1" value={{this.recipes[this.rightPageNumber-1].recipeName}} #RecipeNameRight/>
+          <input (dblclick)="toggleEdit(editType.RECIPENAME, editType.RIGHTPAGE)" class="editRecipeText"type="text" size="1" value={{this.recipes[this.rightPageNumber-1].recipeName}} #RecipeNameRight/>
         </div>
         <button (click)="updateRecipe(RecipeNameRight.value, this.recipes[this.rightPageNumber - 1])">
           Save
@@ -169,68 +136,44 @@
     </ng-template>
     <th>
       <!-- Display Ingredients Left Column-->
-      <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.rightPageNumber - 1].recipeId, 0)">
-        <div *ngIf="showEditIngredients; else elseBlock">
-          <td>
-            {{recipeIngredient.name}}
-          </td>
-        </div>
-          <ng-template #elseBlock>
-          <div class="flex">
-            <div>
-              <!-- Delete ingredient -->
-              <button (click)="deleteIngredient(recipeIngredient, this.recipes[this.rightPageNumber - 1].recipeId)">
-                X
-              </button>
-            </div>
-            <div>
-                <input type="text" size="1" value={{recipeIngredient.name}} />
-            </div>
-          </div>
-        </ng-template>
+      <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.rightPageNumber - 1].recipeId, 0); let i = index">
+        <td (dblclick)="deleteIngredient(recipeIngredient, this.recipes[this.rightPageNumber - 1].recipeId)">
+          {{recipeIngredient.name}}
+        </td>
     </div>
   </th>
   <th>
     <!-- Display Ingredients Right Column-->
     <div *ngFor="let recipeIngredient of getHalfIngredientsFromRecipe(this.recipes[this.rightPageNumber - 1].recipeId, 1); let i = index">
-      <div *ngIf="showEditIngredients; else elseBlock">
-        <td>
-          {{recipeIngredient.name}}
-        </td>
-      </div>
-      <ng-template #elseBlock>
-      <div class="flex">
-        <div>
-          <!-- Delete ingredient -->
-          <button (click)="deleteIngredient(recipeIngredient, this.recipes[this.rightPageNumber - 1].recipeId)">
-            X
-          </button>
-        </div>
-        <div>
-            <input type="text" size="1" value={{recipeIngredient.name}} />
-        </div>
-      </div>
-    </ng-template>
+      <td (dblclick)="deleteIngredient(recipeIngredient, this.recipes[this.rightPageNumber - 1].recipeId)">
+        {{recipeIngredient.name}}
+      </td>
     </div>
     <div class="flex">
       <div>
         <!-- Add ingredient -->
-        <button [hidden]="showEditIngredients" (click)="addIngredient(ingredientNameRight.value, this.recipes[this.rightPageNumber - 1].recipeId - 1); ingredientNameRight.value=''">
-          Add
+        <button [hidden]="!showEditIngredientsRight" (click)="toggleEdit(editType.INGREDIENTS, editType.RIGHTPAGE)">
+          +
+        </button>
+        <button [hidden]="showEditIngredientsRight" (click)="toggleEdit(editType.INGREDIENTS, editType.RIGHTPAGE)">
+          X
         </button>
       </div>
       <div>
-        <input [hidden]="showEditIngredients" size="1" #ingredientNameRight/>
+        <input [hidden]="showEditIngredientsRight" size="1" #ingredientNameRight/>
       </div>
+      <button [hidden]="showEditIngredientsRight" (click)="addIngredient(ingredientNameRight.value, this.recipes[this.rightPageNumber - 1].recipeId - 1); ingredientNameRight.value=''">
+        Add
+      </button>
     </div>
   </th>
 </table>
   <!-- Display Steps -->
   <div class="steps">
     <ol>
-      <div *ngFor="let step of getStepsFromRecipe(this.recipes[this.rightPageNumber - 1].recipeId)">
-        <div *ngIf="showEditSteps; else elseBlock3">
-        <li>
+      <div *ngFor="let step of getStepsFromRecipe(this.recipes[this.rightPageNumber - 1].recipeId); let i = index">
+        <div *ngIf="showEditStepsRight; else elseBlock3">
+        <li (dblclick)="toggleEdit(editType.STEPS, editType.RIGHTPAGE)">
           {{ step.step }}
         </li>
       </div>
@@ -243,7 +186,7 @@
             </button>
           </div>
           <div>
-              <input type="text" class="stepInput" value={{step.step}} #StepRight/>
+              <input (dblclick)="toggleEdit(editType.STEPS, editType.RIGHTPAGE)" type="text" class="stepInput" value={{step.step}} #StepRight/>
           </div>
           <button (click)="updateSteps(StepRight.value, step)">
             Save
@@ -255,13 +198,14 @@
     <div class="flex" id="StepDiv">
       <div>
         <!-- Add a step -->
-        <button [hidden]="showEditSteps" (click)="addSteps(step.value, this.recipes[rightPageNumber - 1].recipeId - 1); step.value=''">
+        <button [hidden]="showEditStepsRight" (click)="addSteps(step.value, this.recipes[rightPageNumber - 1].recipeId - 1); step.value=''">
           ADD
         </button>
       </div>
       <div>
-        <input [hidden]="showEditSteps" type="text" class="stepInput" #step />
+        <input [hidden]="showEditStepsRight" type="text" class="stepInput" #step />
       </div>
     </div>
   </div>
 </div>
+

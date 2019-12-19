@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class RecipesService {
-  private recipesUrl = 'api/recipe'; // URL to web api
+  private recipesUrl = 'http://localhost:8080/recipe/';
 
   httpHeaders = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,8 +16,7 @@ export class RecipesService {
   constructor(private http: HttpClient) {}
 
   getRecipes(): Observable<any> {
-    console.log('getRecipes service');
-    return this.http.get<any>(this.recipesUrl);
+    return this.http.get<any>(this.recipesUrl + 'all');
   }
 
   addRecipes(recipes: Recipe): Observable<any> {
@@ -31,6 +30,8 @@ export class RecipesService {
   }
 
   updateRecipes(recipes: Recipe): Observable<any> {
+    const id = typeof recipes === 'number' ? recipes : recipes.recipeId;
+    const url = `${this.recipesUrl + '/update'}/${id}`;
     return this.http.put(this.recipesUrl, recipes, this.httpHeaders);
   }
 }

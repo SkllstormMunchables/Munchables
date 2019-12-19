@@ -7,7 +7,7 @@ import { Steps } from './models/steps';
   providedIn: 'root'
 })
 export class StepsService {
-  private stepsUrl = 'api/steps'; // URL to web api
+  private stepsUrl =  'http://localhost:8080/steps';
 
   httpHeaders = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +16,7 @@ export class StepsService {
   constructor(private http: HttpClient) {}
 
   getSteps(): Observable<any> {
-    return this.http.get<any>(this.stepsUrl);
+    return this.http.get<any>(this.stepsUrl + '/all');
   }
 
   addSteps(step: Steps): Observable<any> {

@@ -8,7 +8,7 @@ import { RecipeIngredients } from './models/recipeIngredients';
   providedIn: 'root'
 })
 export class RecipeIngredientsService {
-  private recipeIngredientsUrl = 'api/recipeIngredients'; // URL to web api
+  private recipeIngredientsUrl = 'http://localhost:8080/recipeIngredients/';
 
   httpHeaders = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,14 +17,14 @@ export class RecipeIngredientsService {
   constructor(private http: HttpClient) { }
 
   getRecipeIngredients(): Observable<any> {
-    return this.http.get<any>(this.recipeIngredientsUrl);
+    return this.http.get<any>(this.recipeIngredientsUrl + 'all');
   }
 
-  deleteRecipeIngredient(recipeIngredients: RecipeIngredients | number): Observable<any> {
-    console.log('slider.service: recipeIngredients: ' + recipeIngredients);
-    const id =
-      typeof recipeIngredients === 'number' ? recipeIngredients : recipeIngredients.ingredientId;
-    const url = `${this.recipeIngredientsUrl}/${id}`;
-    return this.http.delete<any>(url, this.httpHeaders);
-  }
+  // deleteRecipeIngredient(recipeIngredients: RecipeIngredients | number): Observable<any> {
+  //   console.log('slider.service: recipeIngredients: ' + recipeIngredients);
+  //   const id =
+  //     typeof recipeIngredients === 'number' ? recipeIngredients : recipeIngredients.ingredientId;
+  //   const url = `${this.recipeIngredientsUrl}/${id}`;
+  //   return this.http.delete<any>(url, this.httpHeaders);
+  // }
 }

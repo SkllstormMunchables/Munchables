@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class IngredientsService {
-  private ingredientsUrl = 'api/ingredients'; // URL to web api
+  private ingredientsUrl = 'http://localhost:8080/ingredients/';
 
   httpHeaders = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +16,7 @@ export class IngredientsService {
   constructor(private http: HttpClient) {}
 
   getIngredients(): Observable<any> {
-    return this.http.get<any>(this.ingredientsUrl);
+    return this.http.get<any>(this.ingredientsUrl + 'all');
   }
 
   addIngredient(ingredient: Ingredients): Observable<any> {
@@ -31,7 +31,7 @@ export class IngredientsService {
     console.log('slider.service: deleteIngredient: ' + ingredient);
     const id =
       typeof ingredient === 'number' ? ingredient : ingredient.ingredientId;
-    const url = `${this.ingredientsUrl}/${id}`;
+    const url = `${this.ingredientsUrl + '/update'}/${id}`;
     return this.http.delete<any>(url, this.httpHeaders);
   }
 
