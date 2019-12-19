@@ -1,3 +1,4 @@
+import { RecipesService } from './recipes.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,7 +15,7 @@ export class RecipeIngredientsService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private RecipesService) { }
 
   getRecipeIngredients(): Observable<any> {
     return this.http.get<any>(this.recipeIngredientsUrl);

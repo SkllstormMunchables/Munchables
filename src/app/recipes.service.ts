@@ -1,5 +1,9 @@
+import { IngredientsService } from './ingredients.service';
+import { Ingredients } from './models/ingredients';
+
 import { Injectable } from '@angular/core';
 import { Recipe } from './models/recipe';
+
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -20,7 +24,7 @@ export class RecipesService {
     return this.http.get<any>(this.recipesUrl);
   }
 
-  addRecipes(recipes: Recipe): Observable<any> {
+  addRecipes(recipes: Recipe, ingredients: Ingredients): Observable<any> {
     return this.http.post<Recipe>(this.recipesUrl, recipes, this.httpHeaders);
   }
 

@@ -1,3 +1,4 @@
+import { ingredients } from './../mockDB';
 import { RecipeIngredients } from './../models/recipeIngredients';
 import { RecipeIngredientsService } from './../recipe-ingredients.service';
 import { Ingredients } from './../models/ingredients';
@@ -46,6 +47,7 @@ export class SliderComponent implements OnInit {
     this.getIngredient();
     this.getRecipeIngredients();
     this.getSteps();
+    this.addRecipeIngredientRecipe();
   }
 
   // Hides/Shows edit options
@@ -254,6 +256,20 @@ export class SliderComponent implements OnInit {
     }
     return stepsList;
   }
+
+  addRecipeIngredient(recipeId:number, ingredientId:number){
+    const recipeIngredient = [];
+      // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < this.recipes.length; i++) {
+        if (recipeId === this.recipes[i].recipeId) {
+          recipeIngredient.push(this.recipes[i]);
+        }
+      }
+return recipeIngredient;
+
+    
+    }
+
   updateSteps(name: string, step: Steps) {
     if (!name) {
       return;
@@ -278,3 +294,5 @@ export class SliderComponent implements OnInit {
     console.log('deleteStep: ', this.steps);
   }
 }
+
+

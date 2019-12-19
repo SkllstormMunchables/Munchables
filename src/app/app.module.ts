@@ -36,11 +36,8 @@ import { InMemoryDataService } from './in-memory-data.service';
     FormsModule,
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
-  ],
+    HttpClientModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

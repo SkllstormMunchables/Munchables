@@ -1,6 +1,3 @@
-import { recipe, ingredients } from './mockDB';
-import { Steps } from './models/steps';
-import { Ingredients } from './models/ingredients';
 import { Recipe } from './models/recipe';
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Injectable } from '@angular/core';
