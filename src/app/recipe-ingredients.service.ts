@@ -2,8 +2,6 @@ import { RecipesService } from './recipes.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RecipeIngredients } from './models/recipeIngredients';
-
 
 @Injectable({
   providedIn: 'root'
